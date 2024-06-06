@@ -1,0 +1,469 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  PACKAGES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  METADATA
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{Expected Probabilities of Infinitely Iterated de Finetti Lotteries via Matrix Decomposition}
+\author{Julio Cesar Enciso-Alva}
+\date{February 2024}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  MACROS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newtheorem{definition}{Definition}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\card}[1]{\left| #1 \right|}
+\newcommand{\sset}[1]{\left\{ #1 \right\}}
+\newcommand{\ppar}[1]{\left( #1 \right)}
+\newcommand{\spar}[1]{\left[ #1 \right]}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+    TODO
+\end{abstract}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  INTRODUCTION
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Introduction}
+
+A lottery can be defined informally as randomly selecting a ticket from a set of tickets. 
+%
+Real-world lotteries work with finite sets of tickets and are typically associated with randomized decisions --including monetary prizes. 
+%
+These finite lotteries can be used to illustrate probability concepts such as equiprobability, or sampling with and without substitution.
+
+Wenmackers and Horsten \cite{fair_infinite_lottery} describe with great detail the generalization of fair lotteries with infinite tickets.
+%
+They propose that a fair lottery should keep the following properties:
+\begin{enumerate}
+    \item Each single ticket shouldn't have a higher probability of being selected than any other ticket.
+    \item Any individual ticket should be able to be selected.
+    \item The probability of selecting a group of tickets should be equal to the sum of the probability of selecting each individual ticket.
+    \item The labeling of the tickets is independent of the outcome.
+\end{enumerate}
+
+The particular case of a fair lottery over the set of natural numbers is known as the de Finneti Lottery in honor of Bruno de Finetti.
+%
+A description of the numerous implications of modeling the de Finetti Lottery within the framework of standard Probability Theory is beyond the scope of this work, and the interested reader should refer to the paper of Wenmackers and Horsten \cite{fair_infinite_lottery}.
+
+
+Hess and Polisety \cite{hess2023} proposed a variation of the de Finetti Lottery in which the tickets corresponding to odd numbers are selected with replacement and the tickets from even numbers are selected without replacement;
+%
+this lottery is then iterated one time per each ticket present at the beginning.
+%
+For ease of notation, this process will be referred to as the Infinitely-Iterated de Finetti Lottery (IIFL) during this text.
+
+After defining the IIFL, Hess and Polisety \cite{hess2023} investigated the ratios of tickets related to odd and even numbers after the iterations were performed.
+%
+Later, they obtain these ratios after `half' of the iterations.
+
+In this work, I propose the concept of Finitely-Iterated de Finetti Lottery (FIFL) as a framework to study quantities related to IIFL.
+%
+By using FIFL, I was able to replicate and generalize the findings of Hess and Polisety \cite{hess2023}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  DEFINITIONS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Formal definitions}
+
+I will keep the informal notion of a fair lottery as the random selection of a ticket from a set of tickets in compliance with the fairness properties described in Section 1;
+%
+a proper formalization of this concept is beyond this text, and thus the author should refer to the paper by Wenmackers and Horsten \cite{fair_infinite_lottery}.
+
+%Instead, in this paper, the fair infinite lotteries are approximated using fair finite lotteries. 
+%
+%Fair finite lotteries can be formalized easily in the standard Probability Theory; this is also true for finite iterations without replacement.
+%
+%The formal definition of a fair finite lottery is omitted, and the focus is set to the limits of certain quantities as the size of the lottery goes to infinity.
+
+In the paper by Hess and Polisety \cite{hess2023}, the lottery is iterated a countable infinite number of times; tickets corresponding to even numbers are selected without replacement, and tickets from odd numbers are selected with replacement.
+%
+This process is iterated one time per each natural number.
+
+Hess and Polisety investigated the ratio (even tickets)/(odd tickets) tickets after all the iterations were performed and found it to be 
+$W\ppar{e^{-1}}/\ppar{1+W\ppar{e^{-1}}}$, where $W$ is the Lambert W function.
+%
+The concept of the ratio between infinite sets was not explored in that paper but rather considered to be an intuitive generalization from finite sets.
+%
+A compatible operative definition is provided here.
+
+\begin{definition}[Density of a subset of $\N$]
+Let $A \subseteq \N$ be a countable set.
+%and define the following sequence
+%\begin{equation}
+%    m_N\ppar{A} = \frac{1}{N} \card{ \sset{a\in A; a\leq N} }.
+%\end{equation}
+If the following limit is well-defined, we call it the density of $A$,
+\begin{equation}
+    m\ppar{A} = 
+    %\lim_{N\leftarrow \infty} m_N\ppar{A}.
+    \lim_{N\rightarrow \infty} \frac{1}{N} \card{ \sset{a\in A; a\leq N} }.
+\end{equation}
+\end{definition}
+
+Similarly, the proposed definition for the iterative de Finetti Lottery is compatible on an operative level; the general initial conditions are already considered.
+
+\begin{definition}[Finitely-Iterated Lottery]
+Let $A \subseteq \N$ be a countable set with $m\ppar{A} = p \in [0,1]$, and let $\alpha\geq 0$ and $N\in \N$ be parameters. 
+
+Construct the sets $A_0 = \sset{a\in A; a\leq N}$, $B = \sset{1, 2, \dots, N} - A_0$.
+%
+The iterative lottery consists of the following steps, iterated over $n$ with $1\leq n\leq \alpha N$:
+\begin{enumerate}
+    \item Select randomly $x \in A_n \cup B$, with all elements being equiprobable.
+    \item Construct $A_{n+1}$ as follows
+    \begin{equation}
+        A_{n+1} = \begin{cases}
+            A_n-\sset{x}, &\text{if } x\in A_n, \\
+            A_n, &\text{otherwise}.
+        \end{cases}
+    \end{equation}
+\end{enumerate}
+\end{definition}
+
+With this definition at hand, the idea of iterating the lottery `as many times as natural numbers' is equivalent to observing the behavior of $A_{N}$ as $N \rightarrow \infty$ with $p=\frac{1}{2}$ and $\alpha=1$.
+%
+The parameter $\alpha$ is tied to the follow-up questions related to performing only half of the iterations.
+%, which in this framework only requires $\alpha = \frac{1}{2}$.
+
+Needless to say that the density of $A_{\alpha N}$, $\frac{1}{N}\card{ A_{\alpha N}}$, is a random variable.
+%
+Within the proposed framework,
+we can describe the work from Hess and Polisety \cite{hess2023} as investigating the expected value of the density of $A_{\alpha N}$ as $N \rightarrow \infty$.
+%
+They report the following
+\begin{align}
+    \lim_{N \rightarrow \infty} E\ppar{\frac{1}{N}\card{ A_{N}}} 
+    &=
+    \frac{W\ppar{e^{-1}}}{1+W\ppar{e^{-1}}} \approx 0.21 
+    \\
+    \lim_{N \rightarrow \infty} E\ppar{\frac{1}{N}\card{ A_{N/2}}} 
+    &=
+    \frac{W\ppar{1}}{1+W\ppar{1}} \approx 0.37 
+\end{align}
+
+\begin{definition}[Infinitely-Iterated de Finetti Lottery, IIFL]
+Let $A_0 \subseteq \N$ be a countable set.
+\end{definition}
+
+The process defined by Polisety \cite{hess2023}, which will be referred to as an Infinitely-Iterated de Finetti Lottery (IIFL), consists on the following steps:
+\begin{enumerate}
+    \item fghfgh
+\end{enumerate}
+
+Considering how the Infinitely-Iterated de Finetti Lottery (IIFL) is defined by Polisety \cite{hess2023}
+
+Let $N\in \N$ $\alpha\geq 0$ and $p\in [0,1)$ be arbitrary parameters\footnote{For ease of notation, I will just assume that $\alpha, p, N$ are selected in a way so that $\frac{p}{1-p} N, \frac{1}{1-p} \alpha N \in \N$. Otherwise, some rounding must be written explicitly.}, and let $A_N \subseteq \Omega_N$ be two finite sets such that 
+
+
+For the Finitely Iterated Finetty Lottery (FIFT) of size $N\in \N$, let $\alpha\geq 0$ and $p\in [0,1)$ be arbitrary parameters\footnote{For ease of notation, I will just assume that $\alpha, p, N$ are selected in a way so that $\frac{p}{1-p} N, \frac{1}{1-p} \alpha N \in \N$. Otherwise, some rounding must be written explicitly.}, and let $A_N \subseteq \Omega_N$ be two finite sets such that 
+\begin{align}
+    \card{A_N} : \card{\Omega_N-A_N} : \card{\Omega_N} 
+    &\equiv p: (1-p) : 1
+    \nonumber \\
+    &\equiv
+    \frac{p}{1-p} N : N : \frac{1}{1-p} N
+\end{align}
+
+The finitely iterated lottery is defined as follows:
+\begin{enumerate}
+    \item Select $x\in \Omega_N$ randomly, all elements are equally likely to be chosen.
+    \item If $x\in A_N$ then $x$ is removed.
+    \item Go to 1 until completing $T$ iterations.
+\end{enumerate}
+with the number of iterations, $T$, such that
+\begin{align}
+    \card{\Omega_N} : T &\equiv 1:\alpha
+    \nonumber \\
+    &\equiv
+    \frac{1}{1-p} N : \frac{1}{1-p} \alpha N.
+\end{align}
+
+Notice that the cardinality of $A_N$ changes randomly with each iteration, and it can be modeled as a Markov process. 
+To be precise, define the random process $S_N$ as
+\begin{equation}
+    S_N(t) = \frac{\card{A_N}}{\card{\Omega_N}} \text{ after } t \text{ iterations},
+\end{equation}
+with $S_N(0)$ a degenerate variable so that $Pr\left(S_N(0) =  \frac{p}{1-p}N\right)=1$.
+%
+The common support for $S_N(t)$ is the set $\sset{\frac{k}{N+k}; k = 0, 1, 2, \cdots, \frac{p}{1-p}N}$, but it can be trivially extended to the set $\sset{\frac{k}{N+k}; k = 0, 1, 2, \cdots}$ without loss of generality.
+
+$S_N$ can be interpreted as the `density' of the set $A_N$ with respect to $\Omega_N$, and how it changes after a number of lotteries are performed.
+The quantity of interest, $m_N$, is the average density of $A_N$ after performing $T$ iterations and it can be described as
+\begin{equation}
+    m_N(\alpha, p) = E\left[ S_N\left( \frac{1}{1-p} \alpha N \right) \right]
+\end{equation}
+
+Computations of the exact form of $m_N(\alpha, p)$, as well as the limit as $N \rightarrow \infty$, are discussed in the following sections. 
+Before that, it is relevant to describe the intended limiting process even if it is effectively never used in the present work.
+
+ For the Infinitely Iterated Finetty Lottery (iIFT), let $\alpha\geq 0$ and $p\in [0,1)$ be arbitrary parameters, and let $A \subseteq \Omega$ be two countably finite sets such that 
+\begin{align}
+    \card{A} : \card{\Omega-A} : \card{\Omega} 
+    &\equiv p: (1-p) : 1
+\end{align}
+
+The infinitely iterated lottery is defined as follows:
+\begin{enumerate}
+    \item Select $x\in \Omega$ randomly, all elements are equally likely to be chosen.
+    \item If $x\in A$ then $x$ is removed.
+    \item Go to 1 until completing $T$ iterations.
+\end{enumerate}
+with the number of iterations, $T$, such that
+\begin{align}
+    \card{\Omega} : T &\equiv 1:\alpha.
+\end{align}
+
+The random process $S$ is defined as
+\begin{equation}
+    S(t) = \frac{\card{A}}{\card{\Omega}} \text{ after } t \text{ iterations},
+\end{equation}
+with $S_N(0)$ a degenerate variable so that $Pr\left(S(0) =  p\right)=1$. The required quantity, which is similar to that of Hess and Polisetty, is 
+\begin{equation}
+    \mu(\alpha, p) = E\left[ S\left( \alpha \card{\Omega} \right) \right]
+\end{equation}
+
+It is relevant to mention (in the framework of this work) that  Hess and Polisetty reported the following values
+\begin{align}
+    \mu\ppar{\frac{1}{2}, \frac{1}{2}}
+    &=
+    \frac{W\ppar{1}}{1+W\ppar{1}} \\
+    \mu\ppar{1, \frac{1}{2}}
+    &=
+    \frac{W\ppar{\frac{1}{e}}}{1+W\ppar{\frac{1}{e}}} 
+\end{align}
+with $W$ the Lambert W function. This work aims to contribute to those findings with the following closed-form expression
+\begin{align}
+    \mu\ppar{\alpha, p} &= \frac{W\ppar{g\ppar{\alpha, p}}}{1+W\ppar{g\ppar{\alpha, p}}}
+    \\
+    g\ppar{\alpha, p} &=
+    \ppar{\frac{p}{1-p}} \exp{\ppar{\frac{p-\alpha}{1-p}}}
+\end{align}
+
+For ease of notation $p$ is replaced by $\beta = \frac{p}{1-p}$, with $\beta>0$, so
+\begin{align}
+    \mu\ppar{\alpha, \beta} &= \frac{W\ppar{g\ppar{\alpha, \beta}}}{1+W\ppar{g\ppar{\alpha, \beta}}}
+    \\
+    g\ppar{\alpha, \beta} &=
+    \beta \exp{\ppar{\beta - (1+\beta)\alpha}}
+\end{align}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  EXPECTED VALUE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Computations}
+
+We consider the fIFL process described in the previous section with size $N\in \N$ and parameters $\alpha>0$, $p\in [0,1)$. 
+Recall that the random process $S_N$ represents the density of a certain set as the lottery iterations are performed.
+
+$S_N$ is a Markov process since its current state depends only on the immediate previous state. The probability transitions of $S_N$ are given by
+\begin{equation}
+    Pr\ppar{S_N(t+1) = x \;\middle|\; S_N(t) = \frac{k}{N+k}} = 
+    \begin{cases}
+        \frac{N}{N+k}, &\text{for } x= \frac{k}{N+k} \\
+        \frac{k}{N+k}, &\text{for } x= \frac{k-1}{N+k-1} \\
+        0, &\text{otherwise.}
+    \end{cases}
+\end{equation}
+
+Recall that the common support of $S_N$ was extended  to $\sset{\frac{k}{N+k}; k = 0, 1, 2, \cdots}$.
+If we interpret these values of density as states, then the changes in $S_N$ due to the lottery are but a random walk among these states.
+
+Under this interpretation, we have a state vector $Z_N(t) \in \R^{\N\times 1}$ given by
+\begin{equation}
+    \spar{Z_N(t)}(k) = Pr\ppar{S_N(t) = \frac{k}{N+k}}, \text{ for } k=0,,1, 2, \dots
+\end{equation}
+and a transition matrix $M_N\in \R^{\N\times \N}$ given by
+\begin{equation}
+    \spar{M_N}(j,k) = 
+    \begin{cases}
+        \frac{N}{N+k}, &\text{if } j= k, k>0 \\
+        \frac{k}{N+k}, &\text{if } j= k-1, k>0 \\
+        1, &\text{if } j= k=0 \\
+        0, &\text{otherwise.}
+    \end{cases}
+\end{equation}
+
+By defining a canonical unit vector, $e_\tau \in \R^{\N\times 1}$, as
+\begin{equation}
+    \spar{e_\tau}(k) =
+    \begin{cases}
+        1, &\text{if } k=\tau \\
+        0, &\text{otherwise}
+    \end{cases}
+\end{equation}
+we can write $Z_N$ as a matrix multiplication,
+%\begin{equation}
+%    Z_N(t) = M_N^t\, e_{\ppar{\frac{p}{1-p}N}}.
+%\end{equation}
+\begin{equation}
+    Z_N(t) = M_N^t\, e_{\beta N}.
+\end{equation}
+Furthermore, we can write $m_N$ as a matrix multiplication
+%\begin{equation}
+%    m_N(\alpha, p) = \nu_N^T M_N^{\ppar{\frac{1}{1-p} \alpha N}}\, e_{\ppar{\frac{p}{1-p}N}} 
+%    \label{eq:eq1}
+%\end{equation}
+\begin{equation}
+    m_N(\alpha, \beta) = \nu_N^T M_N^{(1+\beta) \alpha N}\, e_{\beta N}
+    \label{eq:eq1}
+\end{equation}
+with $\nu_N$ a vector for a weighted sum, given by
+\begin{equation}
+    \spar{\nu_N}(k) = \frac{k}{N+k}, \text{ for } k=0,,1, 2, \dots
+\end{equation}
+
+In order to actually compute $m_N$ as in equation \eqref{eq:eq1}, the eigendecomposition of $M_N$ is obtained, and then the appropriate computations are performed; the details are shown in the appendix\footnote{Note to the reader: I'm not yet finished on typing this process. It is quite straightforward since the matrix is upper diagonal and bidiagonal, so the eigenvalues are found by simple back-substitution. The inverse of the matrix with eigenvalues should be also upper diagonal, so it is also computed using back-substitution.}. This results in the following expression
+\begin{equation}
+    m_N(\alpha, \beta) =
+    \sum_{k=0}^{\beta N}
+    (-1)^{k+1} \frac{k^k}{k!} 
+    \frac{\ppar{\beta N}!}{\ppar{\beta N-k}! (N+k)^k} \ppar{\frac{N}{N+k}}
+    \ppar{\frac{N+k}{N}}^{\spar{\beta-(1+\beta)\alpha}k N}
+    \label{eq:eq2}
+\end{equation}
+
+The coefficients on equation \eqref{eq:eq2} converge pointwise as $N\rightarrow \infty$ to the following expression
+\begin{equation}
+    m(\alpha, \beta) =
+    \sum_{k=0}^{\infty}
+    (-1)^{k+1} \frac{k^k}{k!} 
+    \ppar{\beta
+    e^{\spar{\beta-(1+\beta)\alpha}} }^k
+    \label{eq:eq3}
+\end{equation}
+which converges for $\alpha>1+W\ppar{e^{-1}}$, or for $\beta< W\ppar{e^{-1}}$ but it is numerically unstable due to the large exponents\footnote{Absolute convergence was deduced using just quotient rule, so it may be convergent for more values, I just didn't check so far. The numerical instability was observed by performing the computations in Matlab.}.
+
+Equation \eqref{eq:eq3}, however, is similar to the expressions proposed by Hess and Polisetty. In particular, consider the following Taylor approximation,
+\begin{equation}
+    \frac{W\ppar{g\ppar{\alpha, \beta}}}{1+W\ppar{g\ppar{\alpha, \beta}}}
+    =
+    \sum_{k=0}^{\infty}
+    (-1)^{k+1} \frac{k^k}{k!} 
+    \ppar{g\ppar{\alpha, \beta}}^k
+\end{equation}
+
+This latter equation can be deduced from the Taylor expansion for W and a particular identity for the derivative of W:
+\begin{align}
+    W(z) 
+    &=
+    \sum_{k=1}^\infty 
+    \frac{(-k)^{k-1}}{k!} z^k \\
+    \frac{d}{dz} W(z) 
+    &=
+    \frac{1}{z} \cdot \frac{W(z)}{1+W(z)}
+\end{align}
+
+\section{Appendix 1: Eigendecomposition of transition matrix}
+
+In order to compute equation \eqref{eq:eq1}, the eigendecomposition of matrix $M_N$ is computed; the aim is to write
+\begin{equation}
+    M_N = V\, \Lambda V^{-1}
+\end{equation}
+with $\Lambda \in \R^{\N \times \N}$ a diagonal matrix with the eigenvalues of $M_N$, and $V\in \R^{\N \times \N}$ a matrix whose columns are the eigenvectors of $M_N$. 
+
+The goal is to evaluate equation \eqref{eq:eq1} using the following, simpler expression
+\begin{equation}
+    m_N(\alpha, \beta) = \nu_N^T V\, \Lambda^{(1+\beta) \alpha N} V^{-1}\, e_{\beta N}.
+\end{equation}
+
+Spoiler: The explicit expressions for $V, V^{-1}$ are, for $0\leq n\leq k$, 
+\begin{align}
+    V(n,k) &= (-1)^{k-n} \ppar{\frac{N+k}{N}}^{k-n} \cdot \frac{N+n}{N+k} \binom{k}{n}
+    \\
+    V^{-1}(n,k) &=
+    \ppar{\frac{N+n}{N}}^{k-n} \binom{k}{n}
+\end{align}
+
+Since $M_N$ is a diagonal matrix, the eigenvalues can be determined by simple inspection as
+\begin{equation}
+    \lambda_k = \frac{N}{N+k}, \text{ for } k=0, 1, 2, \dots
+\end{equation}
+
+With the eigendecomposition at hand, the computations from equation \eqref{eq:eq1} are performed.
+\begin{align*}
+    \spar{\nu_N^T V}(m) &=
+    \sum_{k=0}^\infty \spar{\nu_N}(k)\, V(k,m) \\
+    &=
+    \sum_{k=0}^m
+    \frac{k}{N+k} \cdot
+    (-1)^{m-k} \ppar{\frac{N+m}{N}}^{m-k} \cdot \frac{N+k}{N+m} \binom{m}{k}
+    \\
+    &=
+    (-1)^{m-1} \ppar{\frac{m}{N}}^m \frac{N}{N+m}
+\end{align*}
+
+%\begin{align*}
+%    \spar{\nu_N^T V \Lambda^{(1+\beta) \alpha N} }(m) &=
+%    (-1)^{m-1} \ppar{\frac{m}{N}}^m 
+%    \ppar{\frac{N}{N+m}}^{(1+\beta) \alpha N+1}
+%    %\par{\frac{N}{N+m}}^{(1+\beta) \alpha N}
+%\end{align*}
+
+\begin{align*}
+    \nu_N^T V\, \Lambda^{(1+\beta) \alpha N} V^{-1}\, e_{\beta N}
+    &=
+    \sum_{m=0}^\infty 
+    \spar{\nu_N^T V}(m)
+    \cdot
+    \lambda_m^{(1+\beta) \alpha N}
+    \cdot
+    V^{-1}(m, \beta N)
+    \\
+    &=
+    \sum_{m=0}^{\beta N}
+    (-1)^{m-1} \ppar{\frac{m}{N}}^m \frac{N}{N+m} \cdot
+    \ppar{\frac{N}{N+m}}^{(1+\beta) \alpha N}
+    \\
+    &\phantom{=}
+    \cdot \ppar{\frac{N+m}{N}}^{\beta N-m} \binom{\beta N}{m}
+    \\
+    &=
+    \sum_{m=0}^{\beta N}
+    (-1)^{m+1} 
+    \ppar{\frac{m}{N+m}}^m \ppar{\frac{N+m}{N}}^{\spar{\beta-(1+\beta)\alpha} N}
+    \\
+    &\phantom{=}
+    \cdot 
+    \ppar{\frac{N}{N+m}} \frac{(\beta N)!}{(\beta N-m)!\, m!}
+    \\
+    &=
+    \sum_{m=0}^{\beta N}
+    (-1)^{m+1} 
+    \frac{m^m}{m!} \frac{(\beta N)!}{(\beta N-m)!\, (N+m)^m}
+    \\
+    &\phantom{=}
+    \cdot 
+    \ppar{\frac{N}{N+m}} \ppar{\frac{N+m}{N}}^{\spar{\beta-(1+\beta)\alpha} N}
+\end{align*}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  REFERENCES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\bibliographystyle{plain} % We choose the "plain" reference style
+\bibliography{lambert_ref} % Entries are in the refs.bib file
+
+\end{document}
