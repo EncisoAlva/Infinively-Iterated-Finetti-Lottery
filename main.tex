@@ -101,14 +101,15 @@ In the paper by Hess and Polisety \cite{hess2023}, the lottery is iterated a cou
 %
 This process is iterated one time per each natural number.
 
-Hess and Polisety investigated the ratio (even tickets)/(odd tickets) tickets after all the iterations were performed and found it to be 
-$W\ppar{e^{-1}}/\ppar{1+W\ppar{e^{-1}}}$, where $W$ is the Lambert W function.
+Hess and Polisety investigated the ratio (even tickets)/(odd tickets) tickets after all the iterations were performed;
+%and found it to be 
+%$W\ppar{e^{-1}}/\ppar{1+W\ppar{e^{-1}}}$, where $W$ is the Lambert W function.
 %
-The concept of the ratio between infinite sets was not explored in that paper but rather considered to be an intuitive generalization from finite sets.
+the concept of the ratio between infinite sets was not explored in that paper but rather considered to be an intuitive generalization from finite sets.
 %
-A compatible operative definition is provided here.
+A compatible definition is provided here.
 
-\begin{definition}[Density of a subset of $\N$]
+\begin{definition}[Natural density for a subset of $\N$]
 Let $A \subseteq \N$ be a countable set.
 %and define the following sequence
 %\begin{equation}
@@ -121,6 +122,10 @@ If the following limit is well-defined, we call it the density of $A$,
     \lim_{N\rightarrow \infty} \frac{1}{N} \card{ \sset{a\in A; a\leq N} }.
 \end{equation}
 \end{definition}
+
+In the context of lotteries, this definition fails property 4 established by Wenmackers and Horsten since it doesn't guarantee that the density of any set will be kept after a permutation of labels.
+%
+This definition is used for compatibility with the work of Hess and Polisety.
 
 Similarly, the proposed definition for the iterative de Finetti Lottery is compatible on an operative level; the general initial conditions are already considered.
 
@@ -156,49 +161,40 @@ They report the following
 \begin{align}
     \lim_{N \rightarrow \infty} E\ppar{\frac{1}{N}\card{ A_{N}}} 
     &=
-    \frac{W\ppar{e^{-1}}}{1+W\ppar{e^{-1}}} \approx 0.21 
+    \frac{W\ppar{e^{-1}}}{1+W\ppar{e^{-1}}} \approx 0.2178
     \\
     \lim_{N \rightarrow \infty} E\ppar{\frac{1}{N}\card{ A_{N/2}}} 
     &=
-    \frac{W\ppar{1}}{1+W\ppar{1}} \approx 0.37 
+    \frac{W\ppar{1}}{1+W\ppar{1}} \approx 0.3619
 \end{align}
 
-\begin{definition}[Infinitely-Iterated de Finetti Lottery, IIFL]
-Let $A_0 \subseteq \N$ be a countable set.
+
+Since our interest in the lotteries depends on the natural density of the outcomes, instead of the actual members of the set.
+%
+It is then convenient to redefine the finite de Finetti lottery in terms of cardinalities.
+
+\begin{definition}[Finitely-Iterated de Finetti Lottery (FIFL)]
+Let $N\in \N$, $\pi \in [0,1]$, and $\beta \in [0, \infty)$ parameters.
+
+Define $S\ppar{0; N} = \max\sset{k\in \N; k \leq \pi N}$, and then iteratively construct
+\begin{equation}
+    S\ppar{n+1; N} = S\ppar{n; N} - \text{Bernoulli}\ppar{\frac{N}{N+S\ppar{n; N}}},
+\end{equation}
+with $1\leq n\leq \beta N$; Bernoulli$\ppar{p}$ is a random variable that is 0 with probability $p$, and it is 1 with probability $1-p$.
 \end{definition}
 
-The process defined by Polisety \cite{hess2023}, which will be referred to as an Infinitely-Iterated de Finetti Lottery (IIFL), consists on the following steps:
-\begin{enumerate}
-    \item fghfgh
-\end{enumerate}
-
-Considering how the Infinitely-Iterated de Finetti Lottery (IIFL) is defined by Polisety \cite{hess2023}
-
-Let $N\in \N$ $\alpha\geq 0$ and $p\in [0,1)$ be arbitrary parameters\footnote{For ease of notation, I will just assume that $\alpha, p, N$ are selected in a way so that $\frac{p}{1-p} N, \frac{1}{1-p} \alpha N \in \N$. Otherwise, some rounding must be written explicitly.}, and let $A_N \subseteq \Omega_N$ be two finite sets such that 
-
-
-For the Finitely Iterated Finetty Lottery (FIFT) of size $N\in \N$, let $\alpha\geq 0$ and $p\in [0,1)$ be arbitrary parameters\footnote{For ease of notation, I will just assume that $\alpha, p, N$ are selected in a way so that $\frac{p}{1-p} N, \frac{1}{1-p} \alpha N \in \N$. Otherwise, some rounding must be written explicitly.}, and let $A_N \subseteq \Omega_N$ be two finite sets such that 
+The parameters $\pi = \frac{p}{1-p}$ and $\beta = \ppar{1+\pi} \beta$ are introduced for ease of ease of computation and in order to make sure that
 \begin{align}
-    \card{A_N} : \card{\Omega_N-A_N} : \card{\Omega_N} 
-    &\equiv p: (1-p) : 1
-    \nonumber \\
-    &\equiv
-    \frac{p}{1-p} N : N : \frac{1}{1-p} N
+    p &=
+    \frac{\card{A_0}}{\card{A_0 \cup B}} = \frac{S_0}{S_0+N},
+    \\
+    \alpha &=
+    \frac{\text{iterations}}{\card{A_0 \cup B}} =
+    \frac{\text{iterations}}{S_0+N}.
 \end{align}
 
-The finitely iterated lottery is defined as follows:
-\begin{enumerate}
-    \item Select $x\in \Omega_N$ randomly, all elements are equally likely to be chosen.
-    \item If $x\in A_N$ then $x$ is removed.
-    \item Go to 1 until completing $T$ iterations.
-\end{enumerate}
-with the number of iterations, $T$, such that
-\begin{align}
-    \card{\Omega_N} : T &\equiv 1:\alpha
-    \nonumber \\
-    &\equiv
-    \frac{1}{1-p} N : \frac{1}{1-p} \alpha N.
-\end{align}
+\section{Model as a Markov Process}
+
 
 Notice that the cardinality of $A_N$ changes randomly with each iteration, and it can be modeled as a Markov process. 
 To be precise, define the random process $S_N$ as
