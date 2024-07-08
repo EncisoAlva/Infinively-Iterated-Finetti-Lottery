@@ -8,6 +8,8 @@
 \usepackage{amsmath}
 \usepackage{amsfonts}
 
+\usepackage{appendix}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %  METADATA
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -24,6 +26,7 @@
 
 \newcommand{\N}{\mathbb{N}}
 \newcommand{\R}{\mathbb{R}}
+\newcommand{\aabs}[1]{\left| #1 \right|}
 \newcommand{\card}[1]{\left| #1 \right|}
 \newcommand{\sset}[1]{\left\{ #1 \right\}}
 \newcommand{\ppar}[1]{\left( #1 \right)}
@@ -50,7 +53,7 @@ A lottery can be defined informally as randomly selecting a ticket from a set of
 %
 Real-world lotteries work with finite sets of tickets and are typically associated with randomized decisions --including monetary prizes. 
 %
-These finite lotteries can be used to illustrate probability concepts such as equiprobability, or sampling with and without substitution.
+These finite lotteries can be used to illustrate probability concepts such as equiprobability or sampling with and without substitution.
 
 Wenmackers and Horsten \cite{fair_infinite_lottery} describe with great detail the generalization of fair lotteries with infinite tickets.
 %
@@ -58,18 +61,17 @@ They propose that a fair lottery should keep the following properties:
 \begin{enumerate}
     \item Each single ticket shouldn't have a higher probability of being selected than any other ticket.
     \item Any individual ticket should be able to be selected.
-    \item The probability of selecting a group of tickets should be equal to the sum of the probability of selecting each individual ticket.
+    \item The probability of selecting a group of tickets should be equal to the sum of the probability of choosing each individual ticket.
     \item The labeling of the tickets is independent of the outcome.
 \end{enumerate}
 
-The particular case of a fair lottery over the set of natural numbers is known as the de Finneti Lottery in honor of Bruno de Finetti.
+The case of a fair lottery over the set of natural numbers is known as the de Finneti Lottery in honor of Bruno de Finetti.
 %
 A description of the numerous implications of modeling the de Finetti Lottery within the framework of standard Probability Theory is beyond the scope of this work, and the interested reader should refer to the paper of Wenmackers and Horsten \cite{fair_infinite_lottery}.
 
 
-Hess and Polisety \cite{hess2023} proposed a variation of the de Finetti Lottery in which the tickets corresponding to odd numbers are selected with replacement and the tickets from even numbers are selected without replacement;
-%
-this lottery is then iterated one time per each ticket present at the beginning.
+Hess and Polisety \cite{hess2023} proposed a variation of the de Finetti Lottery in which the tickets corresponding to odd numbers are selected with replacement, and the tickets from even numbers are selected without replacement;
+this lottery is then iterated once per each ticket present at the beginning.
 %
 For ease of notation, this process will be referred to as the Infinitely-Iterated de Finetti Lottery (IIFL) during this text.
 
@@ -88,14 +90,7 @@ By using FIFL, I was able to replicate and generalize the findings of Hess and P
 \section{Formal definitions}
 
 I will keep the informal notion of a fair lottery as the random selection of a ticket from a set of tickets in compliance with the fairness properties described in Section 1;
-%
-a proper formalization of this concept is beyond this text, and thus the author should refer to the paper by Wenmackers and Horsten \cite{fair_infinite_lottery}.
-
-%Instead, in this paper, the fair infinite lotteries are approximated using fair finite lotteries. 
-%
-%Fair finite lotteries can be formalized easily in the standard Probability Theory; this is also true for finite iterations without replacement.
-%
-%The formal definition of a fair finite lottery is omitted, and the focus is set to the limits of certain quantities as the size of the lottery goes to infinity.
+a proper formalization of this concept is beyond this text, and thus the reader should refer to the paper by Wenmackers and Horsten \cite{fair_infinite_lottery}.
 
 In the paper by Hess and Polisety \cite{hess2023}, the lottery is iterated a countable infinite number of times; tickets corresponding to even numbers are selected without replacement, and tickets from odd numbers are selected with replacement.
 %
@@ -152,22 +147,6 @@ With this definition at hand, the idea of iterating the lottery `as many times a
 The parameter $\alpha$ is tied to the follow-up questions related to performing only half of the iterations.
 %, which in this framework only requires $\alpha = \frac{1}{2}$.
 
-Needless to say that the density of $A_{\alpha N}$, $\frac{1}{N}\card{ A_{\alpha N}}$, is a random variable.
-%
-Within the proposed framework,
-we can describe the work from Hess and Polisety \cite{hess2023} as investigating the expected value of the density of $A_{\alpha N}$ as $N \rightarrow \infty$.
-%
-They report the following
-\begin{align}
-    \lim_{N \rightarrow \infty} E\ppar{\frac{1}{N}\card{ A_{N}}} 
-    &=
-    \frac{W\ppar{e^{-1}}}{1+W\ppar{e^{-1}}} \approx 0.2178
-    \\
-    \lim_{N \rightarrow \infty} E\ppar{\frac{1}{N}\card{ A_{N/2}}} 
-    &=
-    \frac{W\ppar{1}}{1+W\ppar{1}} \approx 0.3619
-\end{align}
-
 
 Since our interest in the lotteries depends on the natural density of the outcomes, instead of the actual members of the set.
 %
@@ -176,14 +155,15 @@ It is then convenient to redefine the finite de Finetti lottery in terms of card
 \begin{definition}[Finitely-Iterated de Finetti Lottery (FIFL)]
 Let $N\in \N$, $\pi \in [0,1]$, and $\beta \in [0, \infty)$ parameters.
 
-Define $S\ppar{0; N} = \max\sset{k\in \N; k \leq \pi N}$, and then iteratively construct
-\begin{equation}
-    S\ppar{n+1; N} = S\ppar{n; N} - \text{Bernoulli}\ppar{\frac{N}{N+S\ppar{n; N}}},
-\end{equation}
+The iterative lottery's result is defined by the following sequence
+\begin{align}
+    S\ppar{0; N, \pi} &= \max\sset{k\in \N; k \leq \pi N}, \\
+    S\ppar{n+1; N, \pi} &= S\ppar{n; N, \pi} - \text{Bernoulli}\ppar{\frac{S\ppar{n; N, \pi}}{N+S\ppar{n; N, \pi}}},
+\end{align}
 with $1\leq n\leq \beta N$; Bernoulli$\ppar{p}$ is a random variable that is 0 with probability $p$, and it is 1 with probability $1-p$.
 \end{definition}
 
-The parameters $\pi = \frac{p}{1-p}$ and $\beta = \ppar{1+\pi} \beta$ are introduced for ease of ease of computation and in order to make sure that
+The parameters $\pi = \frac{p}{1-p}$ and $\beta = \ppar{1+\pi} \beta$ are introduced for ease of computation and in order to make sure that
 \begin{align}
     p &=
     \frac{\card{A_0}}{\card{A_0 \cup B}} = \frac{S_0}{S_0+N},
@@ -193,105 +173,266 @@ The parameters $\pi = \frac{p}{1-p}$ and $\beta = \ppar{1+\pi} \beta$ are introd
     \frac{\text{iterations}}{S_0+N}.
 \end{align}
 
+Needless to say that $S$ is a random process.
+%
+We are further interested in the expected value of $S$, or more specifically the expected density.
+\begin{equation}
+    m_N\ppar{\pi, \beta} = E\ppar{\frac{1}{N}S\ppar{\beta N; N, \pi }}
+\end{equation}
+
+The convergence of $S$ as $N \rightarrow \infty$ is not explored in this paper, but instead only the behavior of $m_N$. 
+%
+In particular, we consider the following quantity whenever it is well-defined
+\begin{equation}
+    \mu\ppar{\pi, \beta} = \lim_{N\infty} m_N\ppar{\pi, \beta}
+\end{equation}
+
+For readability, a second version of $\mu$ is considered using the original variables $p$ and $\alpha$. 
+%
+Recall that $p$ is the natural density of the set to be selected on the lottery, while $\alpha$ is the ratio of iterations/density of $\N$.
+%
+This density function with the original variables would be
+\begin{equation}
+    \mu^*\ppar{p, \alpha} = \mu\ppar{\frac{p}{1-p}, \frac{1}{1-p} \alpha}
+\end{equation}
+
+Within this framework,
+the findings from Hess and Polisety \cite{hess2023} can be described as the following
+\begin{align}
+\mu^*\ppar{\frac{1}{2}, 1}
+    %\lim_{N \rightarrow \infty} E\ppar{\frac{1}{N}S\ppar{2 N; N, \frac{1}{2}}} 
+    &=
+    \frac{W\ppar{e^{-1}}}{1+W\ppar{e^{-1}}} \approx 0.2178
+    \\
+\mu\ppar{\frac{1}{2}, \frac{1}{2}}
+    %\lim_{N \rightarrow \infty} E\ppar{\frac{1}{N}S\ppar{ N; N, \pi}} 
+    &=
+    \frac{W\ppar{1}}{1+W\ppar{1}} \approx 0.3619
+\end{align}
+
+%In the following sections, we generalize this result by proposing the following
+%\begin{align}
+%    \mu\ppar{\pi, \beta} &= \frac{W\ppar{g\ppar{\pi, \beta}}}{1+W\ppar{g\ppar{\pi, \beta}}}
+%    \\
+%    g\ppar{\pi, \beta} &=
+%    \pi \exp{\ppar{\pi - \beta}}
+%\end{align}
+
+The proposed result is that
+\begin{align}
+    {\mu^*}\ppar{p, \alpha} &= \frac{W\ppar{h\ppar{p, \alpha}}}{1+W\ppar{h\ppar{p, \alpha}}}
+    \\
+    h\ppar{p, \alpha} &=
+    \frac{p}{1-p} \exp{\ppar{\frac{p-\alpha}{1-p}}}
+\end{align}
+subject to the following
+\begin{align}
+    \alpha > 1 + \ppar{1-p} \ln{\ppar{\frac{p}{1-p}}} 
+\end{align}
+
 \section{Model as a Markov Process}
 
-
-Notice that the cardinality of $A_N$ changes randomly with each iteration, and it can be modeled as a Markov process. 
-To be precise, define the random process $S_N$ as
-\begin{equation}
-    S_N(t) = \frac{\card{A_N}}{\card{\Omega_N}} \text{ after } t \text{ iterations},
-\end{equation}
-with $S_N(0)$ a degenerate variable so that $Pr\left(S_N(0) =  \frac{p}{1-p}N\right)=1$.
+As described in the previous section, $S(\bullet; N, \pi)$ is clearly a Markov Process.
 %
-The common support for $S_N(t)$ is the set $\sset{\frac{k}{N+k}; k = 0, 1, 2, \cdots, \frac{p}{1-p}N}$, but it can be trivially extended to the set $\sset{\frac{k}{N+k}; k = 0, 1, 2, \cdots}$ without loss of generality.
-
-$S_N$ can be interpreted as the `density' of the set $A_N$ with respect to $\Omega_N$, and how it changes after a number of lotteries are performed.
-The quantity of interest, $m_N$, is the average density of $A_N$ after performing $T$ iterations and it can be described as
+The states of this process can be mapped to the possible values of $m_N$, the quantity of interest, as
 \begin{equation}
-    m_N(\alpha, p) = E\left[ S_N\left( \frac{1}{1-p} \alpha N \right) \right]
+    \frac{1}{N} S(t; N, \pi) \in \sset{\frac{k}{N+k}; k = 0, 1, 2, \cdots}
 \end{equation}
-
-Computations of the exact form of $m_N(\alpha, p)$, as well as the limit as $N \rightarrow \infty$, are discussed in the following sections. 
-Before that, it is relevant to describe the intended limiting process even if it is effectively never used in the present work.
-
- For the Infinitely Iterated Finetty Lottery (iIFT), let $\alpha\geq 0$ and $p\in [0,1)$ be arbitrary parameters, and let $A \subseteq \Omega$ be two countably finite sets such that 
-\begin{align}
-    \card{A} : \card{\Omega-A} : \card{\Omega} 
-    &\equiv p: (1-p) : 1
-\end{align}
-
-The infinitely iterated lottery is defined as follows:
-\begin{enumerate}
-    \item Select $x\in \Omega$ randomly, all elements are equally likely to be chosen.
-    \item If $x\in A$ then $x$ is removed.
-    \item Go to 1 until completing $T$ iterations.
-\end{enumerate}
-with the number of iterations, $T$, such that
-\begin{align}
-    \card{\Omega} : T &\equiv 1:\alpha.
-\end{align}
-
-The random process $S$ is defined as
+for $t\in \N$. 
+%
+Since there are countably infinite states for this process, we can define a state vector $Z_N \in \R^{\N\times 1}$ as
 \begin{equation}
-    S(t) = \frac{\card{A}}{\card{\Omega}} \text{ after } t \text{ iterations},
+    \spar{Z_N(t)}(k) = Pr\ppar{\frac{1}{N} S(t; N, \pi) = \frac{k}{N+k}}, \text{ for } k=0,,1, 2, \dots
 \end{equation}
-with $S_N(0)$ a degenerate variable so that $Pr\left(S(0) =  p\right)=1$. The required quantity, which is similar to that of Hess and Polisetty, is 
+with the initial condition
 \begin{equation}
-    \mu(\alpha, p) = E\left[ S\left( \alpha \card{\Omega} \right) \right]
+    \spar{Z_N(0)}(k) = \spar{e_{\pi N}} = \begin{cases}
+        1, &\text{if } \max\sset{k\in \N; k \leq \pi N} \\
+        0, &\text{otherwise.}
+    \end{cases}
 \end{equation}
+with $e_\tau$ the $\tau$-th canonical vector.
 
-It is relevant to mention (in the framework of this work) that  Hess and Polisetty reported the following values
-\begin{align}
-    \mu\ppar{\frac{1}{2}, \frac{1}{2}}
-    &=
-    \frac{W\ppar{1}}{1+W\ppar{1}} \\
-    \mu\ppar{1, \frac{1}{2}}
-    &=
-    \frac{W\ppar{\frac{1}{e}}}{1+W\ppar{\frac{1}{e}}} 
-\end{align}
-with $W$ the Lambert W function. This work aims to contribute to those findings with the following closed-form expression
-\begin{align}
-    \mu\ppar{\alpha, p} &= \frac{W\ppar{g\ppar{\alpha, p}}}{1+W\ppar{g\ppar{\alpha, p}}}
-    \\
-    g\ppar{\alpha, p} &=
-    \ppar{\frac{p}{1-p}} \exp{\ppar{\frac{p-\alpha}{1-p}}}
-\end{align}
-
-For ease of notation $p$ is replaced by $\beta = \frac{p}{1-p}$, with $\beta>0$, so
-\begin{align}
-    \mu\ppar{\alpha, \beta} &= \frac{W\ppar{g\ppar{\alpha, \beta}}}{1+W\ppar{g\ppar{\alpha, \beta}}}
-    \\
-    g\ppar{\alpha, \beta} &=
-    \beta \exp{\ppar{\beta - (1+\beta)\alpha}}
-\end{align}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%  EXPECTED VALUE
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{Computations}
-
-We consider the fIFL process described in the previous section with size $N\in \N$ and parameters $\alpha>0$, $p\in [0,1)$. 
-Recall that the random process $S_N$ represents the density of a certain set as the lottery iterations are performed.
-
-$S_N$ is a Markov process since its current state depends only on the immediate previous state. The probability transitions of $S_N$ are given by
+The evolution of this system is given by the following condition
 \begin{equation}
-    Pr\ppar{S_N(t+1) = x \;\middle|\; S_N(t) = \frac{k}{N+k}} = 
+    Pr\ppar{\frac{1}{N} S(t+1; N, \pi) = x \;\middle|\; \frac{1}{N} S(t; N, \pi) = \frac{k}{N+k}} = 
     \begin{cases}
         \frac{N}{N+k}, &\text{for } x= \frac{k}{N+k} \\
         \frac{k}{N+k}, &\text{for } x= \frac{k-1}{N+k-1} \\
         0, &\text{otherwise.}
     \end{cases}
+    \label{eq:evolution}
 \end{equation}
-
-Recall that the common support of $S_N$ was extended  to $\sset{\frac{k}{N+k}; k = 0, 1, 2, \cdots}$.
-If we interpret these values of density as states, then the changes in $S_N$ due to the lottery are but a random walk among these states.
-
-Under this interpretation, we have a state vector $Z_N(t) \in \R^{\N\times 1}$ given by
+which can be encoded using a multiplication of the state vector, $Z_N$, with a transition matrix, $M_N\in \R^{\N\times \N}$, defined as
 \begin{equation}
-    \spar{Z_N(t)}(k) = Pr\ppar{S_N(t) = \frac{k}{N+k}}, \text{ for } k=0,,1, 2, \dots
+    \spar{M_N}(j,k) = 
+    \begin{cases}
+        \frac{N}{N+k}, &\text{if } j= k, k>0 \\
+        \frac{k}{N+k}, &\text{if } j= k-1, k>0 \\
+        1, &\text{if } j= k=0 \\
+        0, &\text{otherwise.}
+    \end{cases}
 \end{equation}
-and a transition matrix $M_N\in \R^{\N\times \N}$ given by
+And thus, the evolution equation \eqref{eq:evolution} can be rewritten as
+\begin{equation}
+    Z_N(t+1) = M_N Z_N(t) = \spar{M_N}^t Z_N(0).
+\end{equation}
+
+The original goal, studying the behavior of $m_N$, is connected by writing
+\begin{align}
+    m_N(\pi, \beta) 
+    &= 
+    E\ppar{\frac{1}{N}S\ppar{\beta N; N, \pi }}
+    =
+    \sum_{k=0}^{\infty} \frac{k}{N+k} \spar{Z_N(\beta N)}(k)
+    =
+    \nu^T Z_N(\beta N)
+    \label{eq:weighted}
+\end{align}
+where $\nu_N \in \R^{\N \times 1}$ is a vector given by
+\begin{equation}
+    \spar{\nu_N}(k) = \frac{k}{N+k}, \text{ for } k=0,1, 2, \dots
+\end{equation}
+
+Notice that, in every finite case, the infinite sum in \eqref{eq:weighted} can be truncated at $k\leq \beta N$ since $Z_N$ is zero for those values.
+%
+However, it is convenient to keep it like that since it allows us to consider all possible values of $\pi$ by changing only the initial conditions.
+%
+This becomes clear by rewriting $m_N$ as
+\begin{equation}
+    m_N(\pi, \beta) = \nu_N^T \spar{M_N}^{\beta N}\, e_{\pi N}.
+    \label{eq:mat_mult_base}
+\end{equation}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  EXPECTED VALUE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Results}
+
+Our strategy, whose details are carried out in detail in the appendix, is to compute a sort of eigendecomposition of $M_N$ and use it to compute $m_N$ efficiently.
+%
+The existence of such objects is guaranteed since $M_N$ is lower diagonal, and thus its eigenvalues are trivially found as
+\begin{equation}
+    \lambda^{(N)}_k = \frac{N}{N+k}, \text{ for } k=0,1, 2, \dots
+\end{equation}
+
+The $k$-th eigenvalue of $M_N$, which we now refer as $V_k^{(k)}$, is defined by the following property
+\begin{equation}
+    M_N V_k^{(N)} = \lambda^{(N)}_k V_k^{(N)}
+\end{equation}
+
+As it is shown in the appendix \ref{ap:eigenvalues}, those eigenvalues are given by
+\begin{equation}
+    \spar{V_k^{(N)}}(n) =
+    (-1)^{k-n} \ppar{\frac{N+k}{N}}^{k-n} \cdot \frac{N+n}{N+k} \binom{k}{n}
+\end{equation}
+
+With this result at hand, the eigendecomposition of $M_N$ is given by
+\begin{align}
+    M_N &= \spar{V_N}^{-1} \Lambda_N V_N 
+    \label{eq:eigendecomp}
+    \\
+    V_N &= \begin{bmatrix}
+        V_0^{(N)}, & V_1^{(N)}, & \dots
+    \end{bmatrix} \\
+    \Lambda_N &= \text{diag}\ppar{\lambda^{(N)}_0, \lambda^{(N)}_1, \dots}
+\end{align}
+
+As it is proven in the appendix \ref{ap:inverse}, the inverse of $V_N$ exists and it is given by
+\begin{align}
+    \spar{V^{-1}}(n,k) &=
+    \ppar{\frac{N+n}{N}}^{k-n} \binom{k}{n}
+\end{align}
+
+The objective of defining and computing the eigendecomposition of $M_N$ is to compute efficiently $m_N$.
+%
+In particular, from equations \eqref{eq:mat_mult_base} and \eqref{eq:eigendecomp} we have
+\begin{equation}
+    m_N(\pi, \beta) = \nu_N^T 
+    \spar{V_N}^{-1} \spar{\Lambda_N}^{\beta N} V_N\,
+    e_{\pi N}
+\end{equation}
+
+As it is proven in the appendix \ref{ap:product}, the result of this computation is given by
+\begin{equation}
+m_N(\pi, \beta) =
+    \sum_{k=0}^{\pi N}
+    (-1)^{k+1} 
+    \binom{\pi N}{k}
+    \ppar{\frac{k}{N+k}}^k
+    \ppar{\frac{N+k}{N}}^{\spar{\pi-\beta}k N -1}
+    \label{eq:eq2}
+\end{equation}
+
+As it is proven in the appendix \ref{ap:coeff}, the coefficients on equation \eqref{eq:eq2} converge pointwise with $N\rightarrow \infty$ to the following expression
+\begin{equation}
+    \mu(\alpha, \beta) =
+    \sum_{k=0}^{\infty}
+    (-1)^{k+1} \frac{k^k}{k!} 
+    \ppar{\pi
+    e^{\spar{\pi-\beta}} }^k
+    \label{eq:mu_sum}
+\end{equation}
+
+As it is proven in the appendix \ref{ap:convergence},
+the series on \eqref{eq:mu_sum} converges under the following condition
+\begin{equation}
+    \beta > \pi + 1 + \ln{\pi}
+\end{equation}
+
+A more compact expression for \eqref{eq:mu_sum} can be obtained using the following identity
+\begin{equation}
+    \frac{W\ppar{z}}{1+W\ppar{z}}
+    =
+    \sum_{k=0}^{\infty}
+    (-1)^{k+1} \frac{k^k}{k!} 
+    z^k
+\end{equation}
+resulting in the following 
+\begin{align}
+    \mu\ppar{\pi, \beta} &= \frac{W\ppar{g\ppar{\pi, \beta}}}{1+W\ppar{g\ppar{\pi, \beta}}}
+    \\
+    g\ppar{\pi, \beta} &=
+    \pi \exp{\ppar{\pi - \beta}}
+\end{align}
+
+It is worth to rewrite this result in terms of $p$ and $\alpha$, the original variables.
+\begin{align}
+    {\mu^*}\ppar{p, \alpha} &= \frac{W\ppar{h\ppar{p, \alpha}}}{1+W\ppar{h\ppar{p, \alpha}}}
+    \\
+    h\ppar{p, \alpha} &=
+    \frac{p}{1-p} \exp{\ppar{\frac{p-\alpha}{1-p}}}
+\end{align}
+subject to the following
+\begin{align}
+    \alpha > 1 + \ppar{1-p} \ln{\ppar{\frac{p}{1-p}}} 
+\end{align}
+
+\section{Discussion}
+
+The formula on \eqref{eq:mu_sum} is consistent with the findings by Hess and Polisetty.
+
+The convergence condition was proven using the standard convergence test for series, which should also determine the speed of convergence.
+%
+However, computing the required products reveals that the results converge indeed.
+%
+This may be caused by the unconditional convergence of the final product.
+
+Because my primary field is Applied Math, I can't comment on the significance of these results. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  APPENDIX
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+
+\appendix 
+
+\section{Eigenvalues of Transition Matrix}
+\label{ap:eigenvalues}
+
+Recall that the transition matrix, $M_N\in \R^{\N\times \N}$, is defined as
 \begin{equation}
     \spar{M_N}(j,k) = 
     \begin{cases}
@@ -302,114 +443,219 @@ and a transition matrix $M_N\in \R^{\N\times \N}$ given by
     \end{cases}
 \end{equation}
 
-By defining a canonical unit vector, $e_\tau \in \R^{\N\times 1}$, as
+The eigenvalues of $M_N$ are given by
 \begin{equation}
-    \spar{e_\tau}(k) =
+    \lambda^{(N)}_k = \frac{N}{N+k}, \text{ for } k=0,1, 2, \dots
+\end{equation}
+
+The $k$-th eigenvalue of $M_N$, which we now refer as $V_k^{(k)}$, is defined by the following property
+\begin{equation}
+    M_N V_k^{(N)} - \lambda^{(N)}_k V_k^{(N)} = 0
+    \label{a:01}
+\end{equation}
+
+The $j$-th column of \eqref{a:01} is given by
+\begin{equation}
+    \ppar{\frac{N}{N+j}-\frac{N}{N+k} } V_k^{(N)}(j) + \ppar{\frac{j+1}{N+j+1}}V_k^{(N)}(j+1) = 0
+    \label{a:induction}
+\end{equation}
+
+One particular case is the $k$-th column,
+\begin{equation}
+    \ppar{\frac{k+1}{N+k+1}}V_k^{(N)}(k+1) = 0
+\end{equation}
+from which it follows that $V_k^{(N)}(k+1) = 0$. Furthermore, by induction over \eqref{a:induction} this implies that $V_k^{(N)}(j) = 0$ for $j>k$.
+
+For $j\leq k$, equation \eqref{a:induction} can be rewritten as
+\begin{align}
+    V_k^{(N)}(j) 
+    &= -
+    \frac{\ppar{\frac{j+1}{N+j+1}}}{\ppar{\frac{N}{N+j}-\frac{N}{N+k} }}
+    V_k^{(N)}(j+1)
+    \nonumber \\
+    &=
+    -
+    \ppar{\frac{N+k}{N}} \ppar{\frac{N+j}{N+j-1}} \ppar{\frac{j+1}{k-j}} V_k^{(N)}(j+1)
+\end{align}
+
+Without loss of generality, we can define $\spar{V_k^{(N)}}(k) = 1$, and then the other entries are given by
+\begin{equation}
+    \spar{V_k^{(N)}}(j) =
     \begin{cases}
-        1, &\text{if } k=\tau \\
-        0, &\text{otherwise}
+    (-1)^{k-j} \ppar{\frac{N+k}{N}}^{k-j} \cdot \frac{N+j}{N+k} \binom{k}{j},
+    &\text{for } 0 \leq j\leq k\\
+    0, &\text{otherwise.}
     \end{cases}
 \end{equation}
-we can write $Z_N$ as a matrix multiplication,
-%\begin{equation}
-%    Z_N(t) = M_N^t\, e_{\ppar{\frac{p}{1-p}N}}.
-%\end{equation}
+
+Once the eigenvalues are found, it is possible to ensemble a matrix $V_N$ whose columns are the eigenvalues of $M_N$.
 \begin{equation}
-    Z_N(t) = M_N^t\, e_{\beta N}.
-\end{equation}
-Furthermore, we can write $m_N$ as a matrix multiplication
-%\begin{equation}
-%    m_N(\alpha, p) = \nu_N^T M_N^{\ppar{\frac{1}{1-p} \alpha N}}\, e_{\ppar{\frac{p}{1-p}N}} 
-%    \label{eq:eq1}
-%\end{equation}
-\begin{equation}
-    m_N(\alpha, \beta) = \nu_N^T M_N^{(1+\beta) \alpha N}\, e_{\beta N}
-    \label{eq:eq1}
-\end{equation}
-with $\nu_N$ a vector for a weighted sum, given by
-\begin{equation}
-    \spar{\nu_N}(k) = \frac{k}{N+k}, \text{ for } k=0,,1, 2, \dots
+    V_N = \begin{bmatrix}
+        V_0^{(N)}, & V_1^{(N)}, & \dots
+    \end{bmatrix}
 \end{equation}
 
-In order to actually compute $m_N$ as in equation \eqref{eq:eq1}, the eigendecomposition of $M_N$ is obtained, and then the appropriate computations are performed; the details are shown in the appendix\footnote{Note to the reader: I'm not yet finished on typing this process. It is quite straightforward since the matrix is upper diagonal and bidiagonal, so the eigenvalues are found by simple back-substitution. The inverse of the matrix with eigenvalues should be also upper diagonal, so it is also computed using back-substitution.}. This results in the following expression
+\section{Inverse of Eigenvalues of Transition Matrix}
+\label{ap:inverse}
+
+The purpose of computing the eigendecomposition of $M_N$ is to use the identity
 \begin{equation}
-    m_N(\alpha, \beta) =
-    \sum_{k=0}^{\beta N}
-    (-1)^{k+1} \frac{k^k}{k!} 
-    \frac{\ppar{\beta N}!}{\ppar{\beta N-k}! (N+k)^k} \ppar{\frac{N}{N+k}}
-    \ppar{\frac{N+k}{N}}^{\spar{\beta-(1+\beta)\alpha}k N}
-    \label{eq:eq2}
+    \spar{M_N}^t = V_N \spar{\Lambda_N}^t \spar{V_N}^{-1}
+\end{equation}
+it is sufficient that $\spar{V_N}^{-1}$ is a right inverse of $V_N$. 
+%
+Our strategy for computing this operator is using back substitution.
+%
+For ease of notation, consider the inverse of $V_N$ as a collection of row vectors
+\begin{equation}
+    \spar{V_N}^{-1} = \begin{bmatrix}
+        U_0^{(N)} \\ U_1^{(N)} \\ \vdots
+    \end{bmatrix}
+\end{equation} 
+
+
+Furthermore, since $V_N$ is upper diagonal, we assume that $\spar{V_N}^{-1}$ is also upper-diagonal.
+
+
+
+
+
+
+
+In other words, we aim to solve the following system
+\begin{equation}
+    V_N\, U_k^{(N)} = e_k
+    \label{b:01}
+\end{equation}
+for $k = 0, 1, \dots$. This operation is simplified since 
+$V_N$ is a lower diagonal matrix, and thus $\spar{V_N}^{-1}$ is too.
+
+To be specific, the $j$-th column of equation \eqref{b:01} is
+\begin{equation}
+    \sum_{m=j}^k V(j,m)\, U_k^{(N)}(m) = 
+    \begin{cases}
+        1, &\text{if } j=k \\
+        0, &\text{otherwise}
+    \end{cases}
+    \label{eq:b02}
 \end{equation}
 
-The coefficients on equation \eqref{eq:eq2} converge pointwise as $N\rightarrow \infty$ to the following expression
+The particular case of the $k$-th column leads to
 \begin{equation}
-    m(\alpha, \beta) =
-    \sum_{k=0}^{\infty}
-    (-1)^{k+1} \frac{k^k}{k!} 
-    \ppar{\beta
-    e^{\spar{\beta-(1+\beta)\alpha}} }^k
-    \label{eq:eq3}
+    V(k,k)\, U_k^{(N)}(k) = 
+    1
 \end{equation}
-which converges for $\alpha>1+W\ppar{e^{-1}}$, or for $\beta< W\ppar{e^{-1}}$ but it is numerically unstable due to the large exponents\footnote{Absolute convergence was deduced using just quotient rule, so it may be convergent for more values, I just didn't check so far. The numerical instability was observed by performing the computations in Matlab.}.
+but $V(k,k) = 1$, and so $U_k^{(N)}(k) = 1$.
 
-Equation \eqref{eq:eq3}, however, is similar to the expressions proposed by Hess and Polisetty. In particular, consider the following Taylor approximation,
+For $j<k$, the back substitution steps consist in computing iteratively
 \begin{equation}
-    \frac{W\ppar{g\ppar{\alpha, \beta}}}{1+W\ppar{g\ppar{\alpha, \beta}}}
-    =
-    \sum_{k=0}^{\infty}
-    (-1)^{k+1} \frac{k^k}{k!} 
-    \ppar{g\ppar{\alpha, \beta}}^k
+    U_k^{(N)}(j) = \sum_{m=j+1}^k V(j,m)\, U_k^{(N)}(m)
 \end{equation}
-
-This latter equation can be deduced from the Taylor expansion for W and a particular identity for the derivative of W:
+which, after some ad hoc induction, leads to
 \begin{align}
-    W(z) 
+U_k^{(N)}(j)
     &=
-    \sum_{k=1}^\infty 
-    \frac{(-k)^{k-1}}{k!} z^k \\
-    \frac{d}{dz} W(z) 
-    &=
-    \frac{1}{z} \cdot \frac{W(z)}{1+W(z)}
+    \ppar{\frac{N+j}{N}}^{k-j} \binom{k}{j}
+    \label{eq:b03}
 \end{align}
 
-\section{Appendix 1: Eigendecomposition of transition matrix}
-
-In order to compute equation \eqref{eq:eq1}, the eigendecomposition of matrix $M_N$ is computed; the aim is to write
-\begin{equation}
-    M_N = V\, \Lambda V^{-1}
-\end{equation}
-with $\Lambda \in \R^{\N \times \N}$ a diagonal matrix with the eigenvalues of $M_N$, and $V\in \R^{\N \times \N}$ a matrix whose columns are the eigenvectors of $M_N$. 
-
-The goal is to evaluate equation \eqref{eq:eq1} using the following, simpler expression
-\begin{equation}
-    m_N(\alpha, \beta) = \nu_N^T V\, \Lambda^{(1+\beta) \alpha N} V^{-1}\, e_{\beta N}.
-\end{equation}
-
-Spoiler: The explicit expressions for $V, V^{-1}$ are, for $0\leq n\leq k$, 
-\begin{align}
-    V(n,k) &= (-1)^{k-n} \ppar{\frac{N+k}{N}}^{k-n} \cdot \frac{N+n}{N+k} \binom{k}{n}
-    \\
-    V^{-1}(n,k) &=
-    \ppar{\frac{N+n}{N}}^{k-n} \binom{k}{n}
-\end{align}
-
-Since $M_N$ is a diagonal matrix, the eigenvalues can be determined by simple inspection as
-\begin{equation}
-    \lambda_k = \frac{N}{N+k}, \text{ for } k=0, 1, 2, \dots
-\end{equation}
-
-With the eigendecomposition at hand, the computations from equation \eqref{eq:eq1} are performed.
+In lieu of a detailed description of the derivation method, which was mostly seeking patterns visually, we prove that the expression in \eqref{eq:b03} satisfies the equation \eqref{eq:b02}.
+%
+This confirmation is only necessary for $0\leq j<k$, since the case $j=k$ is trivial and $U_k^{(N)}(j)=0$ for $j> k$.
 \begin{align*}
-    \spar{\nu_N^T V}(m) &=
-    \sum_{k=0}^\infty \spar{\nu_N}(k)\, V(k,m) \\
+    \sum_{m=j}^k V(j,m)\, U_k^{(N)}(m)
+    &=
+    \sum_{m=j}^k 
+    \ppar{ (-1)^{m-j} \ppar{\frac{N+m}{N}}^{m-j} \frac{N+j}{N+m} \binom{m}{j} }
+    \\
+    &\phantom{=}
+    \phantom{\sum_{m=j}^k} \cdot
+    \ppar{\ppar{\frac{N+m}{N}}^{k-m} \binom{k}{m}}
+\end{align*}
+
+
+
+
+
+
+\section{Expected Value of Matrix Product}
+\label{ap:product}
+
+Recall that the goal of using the eigendecomposition of the transition matrix is to compute the expected density in an efficient manner.
+%
+In other words, the goal is to perform the following computation
+\begin{equation}
+    m_N(\pi, \beta) = 
+    {\nu_N^T 
+    V_N}\, \spar{\Lambda_N}^{\beta N} \spar{V_N}^{-1}\,e_{\pi N}
+\end{equation}
+
+%With the eigendecomposition at hand, the computations are performed.
+%
+To ease the computation further, it is carried by parts, starting with the product $\nu_N^T V_T$,
+\begin{align*}
+    \spar{\nu_N^T V_N}(m) &=
+    \sum_{k=0}^\infty \spar{\nu_N}(k) \cdot V_N(k,m) \\
     &=
     \sum_{k=0}^m
-    \frac{k}{N+k} \cdot
-    (-1)^{m-k} \ppar{\frac{N+m}{N}}^{m-k} \cdot \frac{N+k}{N+m} \binom{m}{k}
+    \ppar{\frac{k}{N+k}}
+    \ppar{(-1)^{m-k} \ppar{\frac{N+m}{N}}^{m-k} \cdot \frac{N+k}{N+m} \binom{m}{k}}
+    \\
+    &=
+    \frac{1}{N+m}
+    \sum_{k=0}^m
+    \binom{m}{k}
+    \ppar{- \frac{N+m}{N}}^{m-k} k
+    \\
+    &=
+    \frac{m}{N+m}
+    \sum_{k=1}^m
+    \binom{m-1}{k-1}
+    \ppar{- \frac{N+m}{N}}^{m-k}
+    \\
+    &=
+    \frac{m}{N+m}
+    \sum_{k'=0}^{m-1}
+    \binom{m-1}{k'}
+    \ppar{- \frac{N+m}{N}}^{m-1-k'}
+    \\
+    &=
+    \frac{m}{N+m}
+    \ppar{1-\frac{N+m}{N}}^{m-1}
+    \\
+    &=
+    \frac{m}{N+m}
+    \ppar{-\frac{m}{N}}^m \ppar{-\frac{N}{m}}
     \\
     &=
     (-1)^{m-1} \ppar{\frac{m}{N}}^m \frac{N}{N+m}
 \end{align*}
+
+The matrix $\spar{\Lambda_N}^{\beta N}$ is trivially a diagonal matrix whose entries are given by
+\begin{equation}
+    \spar{\ppar{\Lambda_N}^{\beta N}}(m,m)
+    =
+    \ppar{\frac{N}{N+m}}^{\beta N}
+\end{equation}
+
+Thus the product $\nu_N^T V_T \spar{\Lambda_N}^{\beta N}$ is almost trivial
+\begin{equation}
+    \spar{\nu_N^T V_T \spar{\Lambda_N}^{\beta N}}(m)
+    =
+    (-1)^{m-1} \ppar{\frac{m}{N}}^m
+    \ppar{\frac{N}{N+m}}^{\beta N+1}
+\end{equation}
+
+The product $\spar{V_N}^{-1}\,e_{\pi N}$ is equivalent to selecting the $\pi N$-th column of $\spar{V_N}^{-1}$, which is given by
+\begin{align}
+\spar{V_N}^{-1}(m, \pi N)
+    &=
+    \begin{cases}
+        \ppar{\frac{N+m}{N}}^{\pi N-m} \binom{\pi N}{m},
+        &\text{if } m<\pi N \\
+        0, &\text{otherwise}
+    \end{cases}
+\end{align}
 
 %\begin{align*}
 %    \spar{\nu_N^T V \Lambda^{(1+\beta) \alpha N} }(m) &=
@@ -418,42 +664,263 @@ With the eigendecomposition at hand, the computations from equation \eqref{eq:eq
 %    %\par{\frac{N}{N+m}}^{(1+\beta) \alpha N}
 %\end{align*}
 
+Finally, the quantity of interest is computed
 \begin{align*}
-    \nu_N^T V\, \Lambda^{(1+\beta) \alpha N} V^{-1}\, e_{\beta N}
+    m_N(\pi, \beta) 
+    &=
+    \ppar{\nu_N^T V_N \spar{\Lambda_N}^{\beta N}} \ppar{\spar{V_N}^{-1}\,e_{\pi N}}
+    \\
     &=
     \sum_{m=0}^\infty 
-    \spar{\nu_N^T V}(m)
-    \cdot
-    \lambda_m^{(1+\beta) \alpha N}
-    \cdot
-    V^{-1}(m, \beta N)
+    \spar{\nu_N^T V_T \spar{\Lambda_N}^{\beta N}}(m) \cdot
+    \spar{V_N}^{-1}(m, \pi N)
     \\
     &=
-    \sum_{m=0}^{\beta N}
-    (-1)^{m-1} \ppar{\frac{m}{N}}^m \frac{N}{N+m} \cdot
-    \ppar{\frac{N}{N+m}}^{(1+\beta) \alpha N}
+    \sum_{m=0}^{\pi N}
+    \ppar{(-1)^{m-1} \ppar{\frac{m}{N}}^m
+    \ppar{\frac{N}{N+m}}^{\beta N+1}}
     \\
     &\phantom{=}
-    \cdot \ppar{\frac{N+m}{N}}^{\beta N-m} \binom{\beta N}{m}
+    \phantom{\sum_{m=0}^{\pi N}} \cdot
+    \ppar{\ppar{\frac{N+m}{N}}^{\pi N-m} \binom{\pi N}{m}}
     \\
     &=
-    \sum_{m=0}^{\beta N}
-    (-1)^{m+1} 
-    \ppar{\frac{m}{N+m}}^m \ppar{\frac{N+m}{N}}^{\spar{\beta-(1+\beta)\alpha} N}
+    \sum_{m=0}^{\pi N}
+    (-1)^{m-1} \binom{\pi N}{m}
+    \ppar{\frac{m}{N}}^m \ppar{\frac{N+m}{N}}^{-m}
     \\
     &\phantom{=}
-    \cdot 
-    \ppar{\frac{N}{N+m}} \frac{(\beta N)!}{(\beta N-m)!\, m!}
+    \phantom{\sum_{m=0}^{\pi N}} \cdot
+    \ppar{\frac{N}{N+m}}^{\beta N+1}
+    \ppar{\frac{N+m}{N}}^{\pi N}
     \\
     &=
-    \sum_{m=0}^{\beta N}
-    (-1)^{m+1} 
-    \frac{m^m}{m!} \frac{(\beta N)!}{(\beta N-m)!\, (N+m)^m}
-    \\
-    &\phantom{=}
-    \cdot 
-    \ppar{\frac{N}{N+m}} \ppar{\frac{N+m}{N}}^{\spar{\beta-(1+\beta)\alpha} N}
+    \sum_{k=0}^{\pi N}
+    (-1)^{k+1} 
+    \binom{\pi N}{k}
+    \ppar{\frac{k}{N+k}}^k
+    \ppar{\frac{N+k}{N}}^{\spar{\pi-\beta} N -1}
 \end{align*}
+
+\section{Pointwise Convergence of Coefficients}
+\label{ap:coeff}
+
+Now that we have the following expression for the quantity of interest,
+\begin{equation}
+    m_N(\pi, \beta) =
+    \sum_{k=0}^{\pi N}
+    (-1)^{k+1} 
+    \binom{\pi N}{k}
+    \ppar{\frac{k}{N+k}}^k
+    \ppar{\frac{N+k}{N}}^{\spar{\pi-\beta} N -1}
+\end{equation}
+it is relevant to study its behavior as $N\rightarrow \infty$. 
+%
+To be precise, we are interested in the following limit
+\begin{multline}
+    \lim_{N \rightarrow \infty}
+    (-1)^{k+1} 
+    \binom{\pi N}{k}
+    \ppar{\frac{k}{N+k}}^k
+    \ppar{\frac{N+k}{N}}^{\spar{\pi-\beta} N -1}
+    \\
+    =
+    (-1)^{k+1}
+    \ppar{\lim_{N \rightarrow \infty}
+    \binom{\pi N}{k}
+    \ppar{\frac{k}{N+k}}^k}
+    \ppar{\lim_{N \rightarrow \infty}
+    \ppar{\frac{N+k}{N}}^{\spar{\pi-\beta} N -1}}
+\end{multline}
+
+The second limit can be dealt with easily
+\begin{align*}
+    \lim_{N \rightarrow \infty}
+    \ppar{\frac{N+k}{N}}^{\spar{\pi-\beta} N -1}
+    &=
+    \lim_{N \rightarrow \infty}
+    \ppar{\ppar{1+\frac{k}{N}}^N}^{\spar{\pi - \beta}}
+    \ppar{\frac{N+k}{N}}
+    =
+    e^{\spar{\pi - \beta}k}
+\end{align*}
+
+The first limit can be approximated using a technique used on the Poisson approximation of binomial random variables. 
+%
+To be precise
+\begin{align*}
+    \lim_{N \rightarrow \infty}
+    \binom{\pi N}{k}
+    \ppar{\frac{k}{N+k}}^k
+    &=
+    \lim_{N \rightarrow \infty}
+    \frac{\ppar{\pi N}!}{k!\, \ppar{\pi N-k}!} \cdot 
+    \frac{k^k}{\ppar{N+k}^k}
+    \\
+    &=
+    \frac{k^k}{k!}
+    \lim_{N \rightarrow \infty}
+    \frac{\ppar{\pi N}!}{\ppar{\pi N-k}!\, \ppar{N+k}^k}
+    \\
+    &=
+    \frac{k^k}{k!}
+    \lim_{N \rightarrow \infty}
+    \frac{\ppar{\pi N-k} \cdots \ppar{\pi N} }{\ppar{N+k}^k}
+    \\
+    &=
+    \frac{k^k}{k!}
+    \lim_{N \rightarrow \infty}
+    \ppar{\frac{\pi N-k}{N+k}} \cdots \ppar{\frac{\pi N}{N+k}}
+    \\
+    &=
+    \frac{k^k}{k!}
+    \pi ^k
+\end{align*}
+
+Thus, the intended limit is found
+\begin{multline}
+    \lim_{N \rightarrow \infty}
+    (-1)^{k+1} 
+    \binom{\pi N}{k}
+    \ppar{\frac{k}{N+k}}^k
+    \ppar{\frac{N+k}{N}}^{\spar{\pi-\beta} N -1}
+    =
+    (-1)^{k+1}
+    \frac{k^k}{k!}
+    \pi ^k
+    e^{\spar{\pi - \beta}k}
+\end{multline}
+
+\section{Convergence of Density Function}
+\label{ap:convergence}
+
+the proposed density function is given by
+\begin{equation}
+    \mu(\alpha, \beta) =
+    \sum_{k=0}^{\infty}
+    (-1)^{k+1} \frac{k^k}{k!} 
+    \ppar{\pi
+    e^{\spar{\pi-\beta}} }^k
+\end{equation}
+
+The convergence of this series is investigated by using the ratio test over its coefficients.
+\begin{align*}
+    1 &>
+    \lim_{k\rightarrow \infty}
+    \frac{\aabs{
+    (-1)^{\ppar{k+1}+1} \frac{\ppar{k+1}^{\ppar{k+1}}}{\ppar{k+1}!} 
+    \ppar{\pi
+    e^{\spar{\pi-\beta}} }^{\ppar{k+1}}
+    }}{\aabs{
+    (-1)^{k+1} \frac{k^k}{k!} 
+    \ppar{\pi
+    e^{\spar{\pi-\beta}} }^k
+    }}
+    \\
+    &=
+    \lim_{k\rightarrow \infty}
+    {
+    \frac{\ppar{k+1}^{\ppar{k+1}}\, k! }{{k}^{k} \ppar{k+1}!}
+    {\pi e^{\spar{\pi-\beta}} }
+    }
+    \\
+    &=
+    \lim_{k\rightarrow \infty}
+    \ppar{\frac{k+1}{k}}^k {\pi e^{\spar{\pi-\beta}} }
+    \\
+    &=
+    {\pi e^{\spar{\pi-\beta}+1} }
+\end{align*}
+
+Taking logarithm, the expression is simplified to
+\begin{equation}
+    0 > \ln{\pi} + \spar{\pi-\beta}+1
+\end{equation}
+which is equivalent to
+\begin{equation}
+    \beta > \pi + 1 + \ln{\pi}
+\end{equation}
+
+\section{Density Function and the Lambert W Function}
+\label{ap:identities}
+
+The Lambert W Function, $W: \R_+\rightarrow \R$, is defined\footnote{This definition has a domain limited for the scope of this work.} by the following relation
+\begin{equation}
+    W(z) e^{W(z)} = z
+\end{equation}
+
+Using implicit differentiation over this expression leads to an identity that will be used later.
+\begin{align*}
+    1 &=
+    \frac{d}{d z} \spar{W(z) e^{W(z)}}
+    \\ &=
+    W'(z)\, e^{W(z)} + W(z)\, e^{W(z)}\, W'(z)
+    \\ &=
+    W'(z) \ppar{1+W\ppar{z}} e^{W(z)}
+    \\ &=
+    W'(z) \ppar{1+W\ppar{z}} \frac{z}{W(z)}
+\end{align*}
+
+After simplification, we have the following identity
+\begin{equation}
+    \frac{d}{dz} W(z) 
+    =
+    \frac{1}{z} \cdot \frac{W(z)}{1+W(z)}
+\end{equation}
+Although this identity seems to come out of nowhere, it is motivated by the results obtained by Hess and Poliset \cite{hess2023}.
+
+Now, another important identity is the Taylor expansion of the Lambert W function, given by
+\begin{align}
+    W(z) 
+    &=
+    \sum_{k=1}^\infty 
+    \frac{(-k)^{k-1}}{k!} z^k
+\end{align}
+
+With both identities at hand, we can establish the following computation
+\begin{align*}
+    \frac{W(z)}{1+W(z)}
+    &=
+    z \cdot \frac{d}{dz} W(z)
+    \\
+    &=
+    z \cdot \frac{d}{dz} \ppar{\sum_{k=1}^\infty 
+    \frac{(-k)^{k-1}}{k!} z^k}
+    \\
+    &=
+    z \cdot {\sum_{k=1}^\infty 
+    \ppar{-1}^{k-1}
+    \frac{k^{k-1}}{\ppar{k-1}!} z^{k-1}}
+    \\
+    &=
+    {\sum_{k=1}^\infty 
+    \ppar{-1}^{k-1}
+    \frac{k^{k}}{{k}!} z^{k}}
+\end{align*}
+
+The resulting identity is
+\begin{equation}
+    \frac{W(z)}{1+W(z)}
+    =
+    {\sum_{k=1}^\infty 
+    \ppar{-1}^{k-1}
+    \frac{k^{k}}{{k}!} z^{k}}
+\end{equation}
+
+Notice the resemblance with the density function
+\begin{equation}
+    \mu(\alpha, \beta) =
+    \sum_{k=0}^{\infty}
+    (-1)^{k+1} \frac{k^k}{k!} 
+    \ppar{\pi e^{\spar{\pi-\beta}} }^k
+\end{equation}
+which is why we can state the following
+\begin{equation}
+    \mu(\alpha, \beta) =
+    \frac{W\ppar{\pi e^{\spar{\pi-\beta}}}}{1+W\ppar{\pi e^{\spar{\pi-\beta}}}}
+\end{equation}
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %  REFERENCES
