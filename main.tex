@@ -40,7 +40,7 @@
 \maketitle
 
 \begin{abstract}
-    TODO
+    TODO: (make abstract)
 \end{abstract}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -65,7 +65,7 @@ They propose that a fair lottery should keep the following properties:
     \item The labeling of the tickets is independent of the outcome.
 \end{enumerate}
 
-The case of a fair lottery over the set of natural numbers is known as the de Finneti Lottery in honor of Bruno de Finetti.
+The case of a fair lottery over the set of natural numbers is known as the de Finetti Lottery in honor of Bruno de Finetti.
 %
 A description of the numerous implications of modeling the de Finetti Lottery within the framework of standard Probability Theory is beyond the scope of this work, and the interested reader should refer to the paper of Wenmackers and Horsten \cite{fair_infinite_lottery}.
 
@@ -81,7 +81,7 @@ Later, they obtain these ratios after `half' of the iterations.
 
 In this work, I propose the concept of Finitely-Iterated de Finetti Lottery (FIFL) as a framework to study quantities related to IIFL.
 %
-By using FIFL, I was able to replicate and generalize the findings of Hess and Polisety \cite{hess2023}.
+By using FIFL, I could replicate and generalize the findings of Hess and Polisety \cite{hess2023}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %  DEFINITIONS
@@ -90,17 +90,14 @@ By using FIFL, I was able to replicate and generalize the findings of Hess and P
 \section{Formal definitions}
 
 I will keep the informal notion of a fair lottery as the random selection of a ticket from a set of tickets in compliance with the fairness properties described in Section 1;
-a proper formalization of this concept is beyond this text, and thus the reader should refer to the paper by Wenmackers and Horsten \cite{fair_infinite_lottery}.
+a proper formalization of this concept is beyond this text, and thus, the reader should refer to the paper by Wenmackers and Horsten \cite{fair_infinite_lottery}.
 
-In the paper by Hess and Polisety \cite{hess2023}, the lottery is iterated a countable infinite number of times; tickets corresponding to even numbers are selected without replacement, and tickets from odd numbers are selected with replacement.
+In the paper by Hess and Polisety \cite{hess2023}, the lottery is iterated a countable infinite number of times; tickets corresponding to even numbers are selected without replacement, and tickets from odd numbers are chosen with replacement.
 %
-This process is iterated one time per each natural number.
+This process is iterated one time per natural number.
 
 Hess and Polisety investigated the ratio (even tickets)/(odd tickets) tickets after all the iterations were performed;
-%and found it to be 
-%$W\ppar{e^{-1}}/\ppar{1+W\ppar{e^{-1}}}$, where $W$ is the Lambert W function.
-%
-the concept of the ratio between infinite sets was not explored in that paper but rather considered to be an intuitive generalization from finite sets.
+The concept of the ratio between infinite sets was not explored in that paper; instead, it was considered an intuitive generalization from finite sets.
 %
 A compatible definition is provided here.
 
@@ -118,9 +115,9 @@ If the following limit is well-defined, we call it the density of $A$,
 \end{equation}
 \end{definition}
 
-In the context of lotteries, this definition fails property 4 established by Wenmackers and Horsten since it doesn't guarantee that the density of any set will be kept after a permutation of labels.
+In the context of lotteries, this definition fails property four, established by Wenmackers and Horsten, since it doesn't guarantee that the density of any set will be kept after a permutation of labels.
 %
-This definition is used for compatibility with the work of Hess and Polisety.
+This definition is used to make it compatible with the work of Hess and Polisety.
 
 Similarly, the proposed definition for the iterative de Finetti Lottery is compatible on an operative level; the general initial conditions are already considered.
 
@@ -144,13 +141,13 @@ The iterative lottery consists of the following steps, iterated over $n$ with $1
 
 With this definition at hand, the idea of iterating the lottery `as many times as natural numbers' is equivalent to observing the behavior of $A_{N}$ as $N \rightarrow \infty$ with $p=\frac{1}{2}$ and $\alpha=1$.
 %
-The parameter $\alpha$ is tied to the follow-up questions related to performing only half of the iterations.
+The parameter $\alpha$ is tied to the follow-up questions about performing only half of the iterations.
 %, which in this framework only requires $\alpha = \frac{1}{2}$.
 
 
-Since our interest in the lotteries depends on the natural density of the outcomes, instead of the actual members of the set.
+Since our interest in the lotteries depends on the natural density of the outcomes instead of the actual members of the set.
 %
-It is then convenient to redefine the finite de Finetti lottery in terms of cardinalities.
+It is then convenient to redefine the finite de Finetti lottery regarding cardinalities.
 
 \begin{definition}[Finitely-Iterated de Finetti Lottery (FIFL)]
 Let $N\in \N$, $\pi \in [0,1]$, and $\beta \in [0, \infty)$ parameters.
@@ -175,12 +172,12 @@ The parameters $\pi = \frac{p}{1-p}$ and $\beta = \ppar{1+\pi} \beta$ are introd
 
 Needless to say that $S$ is a random process.
 %
-We are further interested in the expected value of $S$, or more specifically the expected density.
+We are further interested in the expected value of $S$, specifically the expected density.
 \begin{equation}
     m_N\ppar{\pi, \beta} = E\ppar{\frac{1}{N}S\ppar{\beta N; N, \pi }}
 \end{equation}
 
-The convergence of $S$ as $N \rightarrow \infty$ is not explored in this paper, but instead only the behavior of $m_N$. 
+This paper does not explore the convergence of $S$ as $N \rightarrow \infty$ is not explored in this paper, but only the behavior of $m_N$. 
 %
 In particular, we consider the following quantity whenever it is well-defined
 \begin{equation}
@@ -247,13 +244,13 @@ Since there are countably infinite states for this process, we can define a stat
 with the initial condition
 \begin{equation}
     \spar{Z_N(0)}(k) = \spar{e_{\pi N}} = \begin{cases}
-        1, &\text{if } \max\sset{k\in \N; k \leq \pi N} \\
+        1, &\text{if } k = \max\sset{k\in \N; k \leq \pi N} \\
         0, &\text{otherwise.}
     \end{cases}
 \end{equation}
 with $e_\tau$ the $\tau$-th canonical vector.
 
-The evolution of this system is given by the following condition
+The following condition gives the evolution of this system
 \begin{equation}
     Pr\ppar{\frac{1}{N} S(t+1; N, \pi) = x \;\middle|\; \frac{1}{N} S(t; N, \pi) = \frac{k}{N+k}} = 
     \begin{cases}
@@ -273,7 +270,7 @@ which can be encoded using a multiplication of the state vector, $Z_N$, with a t
         0, &\text{otherwise.}
     \end{cases}
 \end{equation}
-And thus, the evolution equation \eqref{eq:evolution} can be rewritten as
+Thus, the evolution equation \eqref{eq:evolution} can be rewritten as
 \begin{equation}
     Z_N(t+1) = M_N Z_N(t) = \spar{M_N}^t Z_N(0).
 \end{equation}
@@ -407,19 +404,51 @@ It is worth to rewrite this result in terms of $p$ and $\alpha$, the original va
 subject to the following
 \begin{align}
     \alpha > 1 + \ppar{1-p} \ln{\ppar{\frac{p}{1-p}}} 
+    \label{eq:conv_og}
 \end{align}
 
 \section{Discussion}
 
 The formula on \eqref{eq:mu_sum} is consistent with the findings by Hess and Polisetty.
 
-The convergence condition was proven using the standard convergence test for series, which should also determine the speed of convergence.
+The convergence condition on \eqref{eq:conv_og} was established using the standard coefficients' ratio convergence test, which should also determine the convergence speed.
 %
 However, computing the required products reveals that the results converge indeed.
 %
-This may be caused by the unconditional convergence of the final product.
+See, for instance, that in Figure \ref{fig:onlyfig}, a number of cases that should not converge do, in fact, converge.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{paradox.png}
+    \caption{Numerical evidence of the convergence of $m^*_N$ as $N\rightarrow \infty$ for different values of $p$ and $\alpha$. Notice that this apparently contradicts the condition \eqref{eq:conv_og}; more details are provided in the text.}
+    \label{fig:onlyfig}
+\end{figure}
+
+My best guess for this convergence paradox is that the convergence condition on \eqref{eq:conv_og} was determined after taking the convergence of the coefficient as $N\rightarrow \infty$.
+%
+In other words, it was established
+\begin{equation}
+    \lim_{N \rightarrow \infty} m^*_N (p, \alpha) = \mu^*(p,\alpha), \text{for }\alpha > 1 + \ppar{1-p} \ln{\ppar{\frac{p}{1-p}}} 
+\end{equation}
+One big limitation of this statement is that the series that defines $\mu^*$ is heavy-tailed, whereas each one of $m^*_N$ is not.
+
+Despite the unfortunate case of an erroneous conclusion, this series has the potential to be an interesting example.
+
+Under more careful handling, this technique can be used for several variations of the same problem: duplicating the selected elements instead of removing them, removing multiples of the selected elements, multi-staged removal after repeated selection, etc.
+
+Conversely, this technique lacks the granularity to manage individual elements since it focuses only on cardinalities. 
+%
+Processes that are based on more specific properties of the removed elements will evade this treatment.
+%
+This is consistent with violating the property (3) of fairness: independence of label permutations.
+
+One can imagine the potential of this technique, or from a proper generalization, for estimating the natural density of sets based on random sampling.
 
 Because my primary field is Applied Math, I can't comment on the significance of these results. 
+
+
+\bibliographystyle{plain} % We choose the "plain" reference style
+\bibliography{lambert_ref} % Entries are in the refs.bib file
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %  APPENDIX
@@ -547,7 +576,7 @@ The particular case of the $k$-th column leads to
 \end{equation}
 but $V(k,k) = 1$, and so $U_k^{(N)}(k) = 1$.
 
-For $j<k$, the back substitution steps consist in computing iteratively
+For $j<k$, the back substitution step consists of computing iteratively
 \begin{equation}
     U_k^{(N)}(j) = \sum_{m=j+1}^k V(j,m)\, U_k^{(N)}(m)
 \end{equation}
@@ -559,7 +588,7 @@ U_k^{(N)}(j)
     \label{eq:b03}
 \end{align}
 
-In lieu of a detailed description of the derivation method, which was mostly seeking patterns visually, we prove that the expression in \eqref{eq:b03} satisfies the equation \eqref{eq:b02}.
+Instead of a detailed description of the derivation method, which was mostly visually seeking patterns, we prove that the expression in \eqref{eq:b03} satisfies the equation \eqref{eq:b02}.
 %
 This confirmation is only necessary for $0\leq j<k$, since the case $j=k$ is trivial and $U_k^{(N)}(j)=0$ for $j> k$.
 \begin{align*}
@@ -803,7 +832,7 @@ the proposed density function is given by
     e^{\spar{\pi-\beta}} }^k
 \end{equation}
 
-The convergence of this series is investigated by using the ratio test over its coefficients.
+This series's convergence is investigated using the ratio test over its coefficients.
 \begin{align*}
     1 &>
     \lim_{k\rightarrow \infty}
@@ -926,7 +955,6 @@ which is why we can state the following
 %  REFERENCES
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\bibliographystyle{plain} % We choose the "plain" reference style
-\bibliography{lambert_ref} % Entries are in the refs.bib file
+
 
 \end{document}
