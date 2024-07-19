@@ -38,6 +38,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{document}
+\numberwithin{equation}{section}
 
 \maketitle
 
@@ -96,7 +97,7 @@ The discussion is limited to subsets of $\N$ and is fully contained within the s
 %I will keep the informal notion of a fair lottery as the random selection of a ticket from a set of tickets in compliance with the fairness properties described in Section 1;
 %a proper formalization of this concept is beyond this text, and thus, the reader should refer to the paper by Wenmackers and Horsten \cite{fair_infinite_lottery}.
 
-In the paper by Hess and Polisety \cite{hess2023}, a type of iterative lottery is defined, which is referred to in this text as an Infinitely-Iterated de Finetti Lottery (IIFL).
+In the paper by Hess and Polisety \cite{hess2023}, a type of iterative lottery is defined, referred to in this text as an Infinitely-Iterated de Finetti Lottery (IIFL).
 %
 The ITFL starts with one ticket per each natural number, distinguishing if the number is even or odd.
 %
@@ -104,9 +105,11 @@ On each iteration, a fair lottery is constructed with the available tickets; tic
 %
 This process is iterated one time per each natural number.
 %
-Hess and Polisety investigated the expected value for the ratio (even tickets)/(natural numbers) after all the iterations were performed.
+After all the iterations were performed, Hess and Polisety investigated the expected value for the ratio (even tickets)/(natural numbers).
 
-With the aim of self-containment, the intuitive concept of a ratio between sets is replaced with natural density; this definition is equivalent to subsets of $\N$ and is compatible with the concept IIFL.
+With the aim of self-containment, the intuitive concept of a ratio between sets is replaced with natural density; this definition is equivalent to
+that used by Hess and Polisety \cite{hess2023} for
+subsets of $\N$ and is compatible with the concept IIFL.
 
 \begin{definition}[Natural density]
 Let $A \subseteq \N$ be a countable set.
@@ -126,7 +129,7 @@ In the context of lotteries, this definition fails property (4)), proposed by We
 %
 This definition is used to make it compatible with the work of Hess and Polisety.
 
-The proposed definition for the finite version of a IIFL, the Finitely Iterated de Finetti Lottery, is conceptually compatible and shares the limitation with respect to property (4).
+The proposed definition for the finite version of an IIFL, the Finitely Iterated de Finetti Lottery, is conceptually compatible and shares the limitation with respect to property (4).
 
 \begin{definition}[Finitely-Iterated Lottery]
 Let $A \subseteq \N$ be a countable set with $m\ppar{A} = p \in [0,1]$, and let $\alpha\geq 0$ and $N\in \N$ be parameters. 
@@ -153,7 +156,7 @@ The parameter $\alpha$ is tied to a follow-up question about performing either m
 %, which in this framework only requires $\alpha = \frac{1}{2}$.
 
 
-Since our interest in the lotteries depends on the natural density of the outcomes instead of the actual members of the set, it is then convenient to redefine the finite de Finetti lottery regarding cardinalities.
+Since our interest in the lotteries is on the natural density of the outcomes instead of the actual members of the set, it is then convenient to redefine the finite de Finetti lottery regarding cardinalities.
 
 \begin{definition}[Finitely-Iterated de Finetti Lottery (FIFL)]
 Let $N\in \N$, $\pi \in [0,1]$, and $\beta \in [0, \infty)$ parameters.
@@ -219,7 +222,7 @@ For readability, we define $\mu^*$ and $m_N^*$ as versions of $\mu$ and $m_N$ us
     \\
     m_N^*\ppar{p, \alpha} &= m_N\ppar{\frac{p}{1-p}, \frac{1}{1-p} \alpha}
 \end{align}
-Recall that $p$ is the natural density of the set to be selected on the lottery, while $\alpha$ is the ratio of iterations/density of $\N$.
+Recall that $p$ is the natural density of the set to be use on the lottery, while $\alpha$ is the ratio of iterations/density of $\N$.
 
 
 Within this framework,
@@ -258,7 +261,7 @@ subject to the following sufficient condition
 
 \section{Model as a Markov Process}
 
-As described in the previous section, $S(\bullet; N, \pi)$ is clearly a Markov Process.
+As described in the previous section, $S(\bullet; N, \pi)$ is dclearly a Markov Process.
 %
 The states of this process can be mapped to the possible values of $m_N$, the quantity of interest, as
 \begin{equation}
@@ -337,7 +340,7 @@ This becomes clear by rewriting $m_N$ as
 \section{Results}
 \label{sec:result}
 
-Our strategy, whose details are carried out in detail in the appendix, is to compute a sort of eigendecomposition of $M_N$ and use it to compute $m_N$ efficiently.
+Our strategy, whose details are detailed in the appendix, is to compute a sort of eigendecomposition of $M_N$ and use it to compute $m_N$ efficiently.
 %
 The existence of such objects is guaranteed since $M_N$ is lower diagonal, and thus its eigenvalues are trivially found as
 \begin{equation}
@@ -441,13 +444,13 @@ subject to the following
 
 \section{Discussion}
 
-The formula on equations \eqref{eq:final1} and \eqref{eq:final2} is consistent with the findings by Hess and Polisetty, and it constitutes a small generalization.
+The formula on equations \eqref{eq:final1} and \eqref{eq:final2} is consistent with the findings by Hess and Polisetty, and it constitutes a slight generalization.
 
 %The convergence condition on \eqref{eq:conv_og} was established using the standard coefficients' ratio convergence test.
 %
 The processes described in section \ref{sec:result} were implemented in Matlab in order to perform the computations for large values of $N$ (more than 2,000).
 %
-Despite that the condition on equation \eqref{eq:conv_og} was found sufficient to guarantee the convergence of the computed quantities, the numerical computations show that the condition may not be necessary.
+Although the condition on equation \eqref{eq:conv_og} was found sufficient to guarantee the convergence of the computed quantities, the numerical computations show that the condition may not be necessary.
 %
 For instance, in Figure \ref{fig:onlyfig} are displayed some cases that should not converge but do, in fact, converge.
 
@@ -465,7 +468,7 @@ In other words, it was established
     \lim_{N \rightarrow \infty} m^*_N (p, \alpha) = \mu^*(p,\alpha), \text{ for }\alpha > 1 + \ppar{1-p} \ln{\ppar{\frac{p}{1-p}}} 
 \end{equation}
 
-One big limitation of the technique used in this paper to determine convergence is that the series that defines $\mu^*$ is heavy-tailed, whereas each one of $m^*_N$ is not.
+One significant limitation of the technique used in this paper to determine convergence is that the series that defines $\mu^*$ is heavy-tailed, whereas each one of $m^*_N$ is not.
 
 Despite the unfortunate case of an erroneous conclusion, this series has the potential to be an interesting example.
 
@@ -566,77 +569,177 @@ The purpose of computing the eigendecomposition of $M_N$ is to use the identity
 \begin{equation}
     \spar{M_N}^t = V_N \spar{\Lambda_N}^t \spar{V_N}^{-1}
 \end{equation}
-it is sufficient that $\spar{V_N}^{-1}$ is a right inverse of $V_N$. 
-%
-Our strategy for computing this operator is using back substitution.
+it is sufficient that $\spar{V_N}^{-1}$ is a left inverse of $V_N$. 
+
+Our strategy for computing this operator is using back-substitution.
 %
 For ease of notation, consider the inverse of $V_N$ as a collection of row vectors
 \begin{equation}
     \spar{V_N}^{-1} = \begin{bmatrix}
         U_0^{(N)} \\ U_1^{(N)} \\ \vdots
     \end{bmatrix}
+    \label{b:00}
 \end{equation} 
 
-
-Furthermore, since $V_N$ is upper diagonal, we assume that $\spar{V_N}^{-1}$ is also upper-diagonal.
-
-
-
-
-
-
-
-In other words, we aim to solve the following system
+With this notation, to find a left inverse of $V_N$ is to solve to solve the following system
 \begin{equation}
-    V_N\, U_k^{(N)} = e_k
+    U_k^{(N)}\, V_N = e_k
     \label{b:01}
 \end{equation}
-for $k = 0, 1, \dots$. This operation is simplified since 
-$V_N$ is a lower diagonal matrix, and thus $\spar{V_N}^{-1}$ is too.
-
-To be specific, the $j$-th column of equation \eqref{b:01} is
+for $k = 0, 1, \dots$, where $e_k\in \R^\N$ the $k$-th canonical vector given by
 \begin{equation}
-    \sum_{m=j}^k V(j,m)\, U_k^{(N)}(m) = 
+    \spar{e_k}(j) = \begin{cases}
+        1, &\text{if } j=k, \\
+        0, &\text{otherwise}
+    \end{cases}
+\end{equation}
+
+Since $V_N$ is a lower diagonal matrix, we may assume that $\spar{V_N}^{-1}$ is too, and so we define 
+\begin{equation}
+    {U_k^{(N)}}(j) = 0, \text{ for } j<k
+\end{equation}
+which trivially satisfies the $j$-th column of equation \eqref{b:01} for $j<k$.
+%
+On a similar way, the $k$-th column of equation \eqref{b:01} is satisfied if we select
+\begin{equation}
+    {U_k^{(N)}}(k) = 1
+\end{equation}
+
+In general, the $j$-th column of equation \eqref{b:01} can be written as
+\begin{equation}
+    \sum_{m=0}^\infty {U_k^{(N)}}(m)\, V(m,j)  = 
     \begin{cases}
         1, &\text{if } j=k \\
         0, &\text{otherwise}
     \end{cases}
-    \label{eq:b02}
+\end{equation}
+By considering only the case $k<j$, the limits can be shortened as
+\begin{equation}
+    \sum_{m=k}^j {U_k^{(N)}}(m)\, V(m,j)  = 
+    0
+    \label{b:02}
 \end{equation}
 
-The particular case of the $k$-th column leads to
+The back-substitution step follows from equation \eqref{b:02};
+%and the fact that$V(j,j) = 1$. 
+%by using the following expression
+%The following expression
+we shall use the expression
 \begin{equation}
-    V(k,k)\, U_k^{(N)}(k) = 
-    1
+    {U_k^{(N)}}(j) = 
+    -\sum_{m=k}^{j-1} {U_k^{(N)}}(m)\, V(m,j)
 \end{equation}
-but $V(k,k) = 1$, and so $U_k^{(N)}(k) = 1$.
-
-For $j<k$, the back substitution step consists of computing iteratively
-\begin{equation}
-    U_k^{(N)}(j) = \sum_{m=j+1}^k V(j,m)\, U_k^{(N)}(m)
-\end{equation}
-which, after some ad hoc induction, leads to
+to compute the entries ${U_k^{(N)}}$ using entries previously computed, starting with ${U_k^{(N)}}(k) = 1$.
+%
+After some ad hoc induction, not shown here, we find the following expression
 \begin{align}
 U_k^{(N)}(j)
     &=
-    \ppar{\frac{N+j}{N}}^{k-j} \binom{k}{j}
+    \ppar{\frac{N+k}{N}}^{j-k} \binom{j}{k}
     \label{eq:b03}
 \end{align}
 
-Instead of a detailed description of the derivation method, which was mostly visually seeking patterns, we prove that the expression in \eqref{eq:b03} satisfies the equation \eqref{eq:b02}.
+Instead of a detailed description of the derivation method, which can be described as seeking patterns visually, we prove that the expression in \eqref{eq:b03} satisfies the equation \eqref{b:02} for $k<j$.
 %
-This confirmation is only necessary for $0\leq j<k$, since the case $j=k$ is trivial and $U_k^{(N)}(j)=0$ for $j> k$.
+%This confirmation is only necessary for $0\leq j<k$, since the case $j=k$ is trivial and $U_k^{(N)}(j)=0$ for $j> k$.
 \begin{align*}
-    \sum_{m=j}^k V(j,m)\, U_k^{(N)}(m)
+    \sum_{m=k}^j {U_k^{(N)}}(m)\, V(m,j)
     &=
-    \sum_{m=j}^k 
-    \ppar{ (-1)^{m-j} \ppar{\frac{N+m}{N}}^{m-j} \frac{N+j}{N+m} \binom{m}{j} }
+    \sum_{m=k}^j
+    \spar{ \ppar{\frac{N+k}{N}}^{m-k} \binom{m}{k} }
     \\
     &\phantom{=}
-    \phantom{\sum_{m=j}^k} \cdot
-    \ppar{\ppar{\frac{N+m}{N}}^{k-m} \binom{k}{m}}
+    \phantom{\sum_{m=k}^j} \cdot
+    \spar{ (-1)^{j-m} \ppar{\frac{N+j}{N}}^{j-m} \frac{N+m}{N+j} \binom{j}{m} }
+    \\
+    &=
+    \frac{(N+j)^j}{(N+k)^k} \cdot \frac{1}{N^{j-k}(N+j)} \cdot \frac{j!}{k!}
+    \\
+    &\phantom{=}
+    \phantom{\sum_{m=k}^j} \cdot
+    \sum_{m=k}^j
+    (-1)^{j-m} \ppar{\frac{N+k}{N+j}}^m \frac{(N+m)}{(j-m)!\, (m-k)!}
+    \\
+    &=
+    \frac{(N+j)^{j-k}}{N^{j-k}(N+j)} \cdot \frac{j!}{k!\, (j-k)!} \cdot (-1)^{j-k}
+    \\
+    &\phantom{=}
+    \phantom{\sum_{m=k}^j} \cdot
+    \sum_{m=k}^{j}
+    (-1)^{m-k} \ppar{\frac{N+k}{N+j}}^{m-k} 
+    (N+m) \binom{j-k}{m-k}
+    \\
+    &=
+    \ppar{K_{j,k} }
+    \sum_{\tau=0}^{j-k}
+    \binom{j-k}{\tau}
+    \ppar{-\frac{N+k}{N+j}}^{\tau} 
+    (N+k + \tau) 
+    \\
+    &=
+    \ppar{K_{j,k} } 
+    \sum_{\tau=0}^{j-k}
+    \binom{j-k}{\tau}
+    \ppar{-\frac{N+k}{N+j}}^{\tau} 
+    \tau
+    \\
+    &\phantom{=}
+    \phantom{\sum_{m=k}^j}
+    +
+    \ppar{K_{j,k} } \ppar{N+k}
+    \sum_{\tau=0}^{j-k}
+    \binom{j-k}{\tau}
+    \ppar{-\frac{N+k}{N+j}}^{\tau} 
+    \\
+    &=
+    \ppar{K_{j,k} } 
+    \sum_{\tau=1}^{j-k}
+    (j-k)
+    \binom{j-k-1}{\tau-1}
+    \ppar{-\frac{N+k}{N+j}}^{\tau} 
+    \\
+    &\phantom{=}
+    \phantom{\sum_{m=k}^j}
+    +
+    \ppar{K_{j,k} } \ppar{N+k}
+    \ppar{1-\frac{N+k}{N+j}}^{j-k}
+    \\
+    &=
+    \ppar{K_{j,k} } 
+    (j-k)
+    \ppar{-\frac{N+k}{N+j}}
+    \ppar{1-\frac{N+k}{N+j}}^{j-k-1}
+    \\
+    &\phantom{=}
+    \phantom{\sum_{m=k}^j}
+    +
+    \ppar{K_{j,k} } \ppar{N+k}
+    \ppar{1-\frac{N+k}{N+j}}^{j-k}
+    \\
+    &=
+    \ppar{K_{j,k} } \ppar{1-\frac{N+k}{N+j}}^{j-k-1}
+    \\
+    &\phantom{=}
+    \phantom{\sum_{m=k}^j}
+    \cdot
+    \spar{(j-k)\ppar{-\frac{N+k}{N+j}}+(N+k)\ppar{1-\frac{N+k}{N+j}}}
+    \\
+    &=
+    \ppar{K_{j,k} } \ppar{\frac{j-k}{N+j}}^{j-k-1} 
+    \frac{N+k}{N+j}
+    \spar{-(j-k) + (j-k)}
+    \\ &= 0
 \end{align*}
 
+The variable ${\ppar{K_{j,k} }}$ is used to shorten terms that depend only on $j$ and $k$.
+%
+After this computation, we conclude that, for $k<j$,
+\begin{equation}
+    \sum_{m=k}^j {U_k^{(N)}}(m)\, V(m,j) = 0
+\end{equation}
+and so ${U_k^{(N)}}$ satisfy equation \eqref{b:01}.
+%
+Then $\spar{V_N}^{-1}$, which is constructed as in equation \eqref{b:00}, is a left inverse of $V_N$.
 
 
 
@@ -645,7 +748,7 @@ This confirmation is only necessary for $0\leq j<k$, since the case $j=k$ is tri
 \section{Expected Value of Matrix Product}
 \label{ap:product}
 
-Recall that the goal of using the eigendecomposition of the transition matrix is to compute the expected density in an efficient manner.
+Recall that the goal of using the eigendecomposition of the transition matrix is to compute the expected density efficiently.
 %
 In other words, the goal is to perform the following computation
 \begin{equation}
